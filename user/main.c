@@ -49,7 +49,7 @@ int main(void)
 				 (void *) NULL , 
 				 (UBaseType_t) TASK1_TASK_PRIORITY , 
 				 (TaskHandle_t*) &Task1_Handler ); 
-      //task 2 
+      //task 2   任务2优先级高，先于任务1运行
     xTaskCreate( (TaskFunction_t) task2_task , 
 				 (char *) "task2_task", 
 				 (configSTACK_DEPTH_TYPE) TASK2_STK_SIZE , 
