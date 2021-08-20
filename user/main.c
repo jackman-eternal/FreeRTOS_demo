@@ -70,15 +70,15 @@ int main(void)
  
  void task1_task( void * pvParameters )
  {
-	 char i=0;
+//	 char i=0;
 	 while(1)
 	 {
-		 if(i==5)
-		 {
-			 vTaskDelete(Task2_Handler ); 
-		 }
+//		 if(i==5)
+//		 {
+//			 vTaskDelete(Task2_Handler ); 
+//		 }
 		LED0 = ~LED0 ;
-		 i++;
+//		 i++;
         vTaskDelay(500); 		 
 	 }
  }
