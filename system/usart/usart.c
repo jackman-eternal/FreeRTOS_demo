@@ -34,21 +34,21 @@
 
 //////////////////////////////////////////////////////////////////
 //加入以下代码,支持printf函数,而不需要选择use MicroLIB	  
-#if 1
-#pragma import(__use_no_semihosting)             
-//标准库需要的支持函数                 
-struct __FILE 
-{ 
-	int handle; 
+//#if 1
+//#pragma import(__use_no_semihosting)             
+////标准库需要的支持函数                 
+//struct __FILE 
+//{ 
+//	int handle; 
 
-}; 
+//}; 
 
-FILE __stdout;       
-//定义_sys_exit()以避免使用半主机模式    
-_sys_exit(int x) 
-{ 
-	x = x; 
-} 
+//FILE __stdout;       
+////定义_sys_exit()以避免使用半主机模式    
+//_sys_exit(int x) 
+//{ 
+//	x = x; 
+//} 
 //重定义fputc函数 
 int fputc(int ch, FILE *f)
 {      
@@ -106,7 +106,7 @@ void uart_init(u32 bound){
 	USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;	//收发模式
 
   USART_Init(USART1, &USART_InitStructure); //初始化串口1
-  USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);//开启串口接受中断
+//  USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);//开启串口接受中断
   USART_Cmd(USART1, ENABLE);                    //使能串口1 
 
 }

@@ -26,3 +26,4 @@
 ..\obj_lis\led.o: ..\FreeRTOS\include\mpu_wrappers.h
 ..\obj_lis\led.o: ..\FreeRTOS\include\task.h
 ..\obj_lis\led.o: ..\FreeRTOS\include\list.h
+..\obj_lis\led.o: ..\system\delay\delay.h

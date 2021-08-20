@@ -1,5 +1,6 @@
 #include "led.h"
 //PC 13
+
 void LED_INIT(int flag)
 {
 	GPIO_InitTypeDef GPIO_LED;
@@ -33,7 +34,7 @@ void EXTI_PA4_init(void)  //PA4 触发中断实现任务的恢复
 	EXTI_InitTypeDef EXTI_GPIO_Typedef;    
 	NVIC_InitTypeDef NVIC_GPIO_Typedef;    
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA|RCC_APB2Periph_AFIO,ENABLE );    
-	GPIO_EXTI_PA4.GPIO_Mode  = GPIO_Mode_IPD ; // 上拉  
+	GPIO_EXTI_PA4.GPIO_Mode  = GPIO_Mode_IPU ; // 上拉  
 	GPIO_EXTI_PA4.GPIO_Pin   = GPIO_Pin_4 ;   
 	GPIO_Init(GPIOA ,&GPIO_EXTI_PA4);  
     EXTI_GPIO_Typedef.EXTI_Line  = EXTI_Line4 ;  
@@ -51,15 +52,18 @@ void EXTI_PA4_init(void)  //PA4 触发中断实现任务的恢复
    
  void EXTI4_IRQHandler(void)  
  { 
-	 BaseType_t YieldRequie;  
-	 if(EXTI_GetITStatus(EXTI_Line4 )!=RESET  )  
+	 BaseType_t YieldRequie; 
+     delay_xms(10); 
+	 if(EXTI_GetITStatus(EXTI_Line4 )!=RESET)  
 	 {  
-		 EXTI_ClearITPendingBit (EXTI_Line4 );  
-		 YieldRequie = xTaskResumeFromISR (Task2_Handler );  
-		 if(YieldRequie == pdTRUE ) 
-		 {  
+		    YieldRequie = xTaskResumeFromISR(Task2_Handler);  
+		    if(YieldRequie == pdTRUE ) 
+		    {  
 			 portYIELD_FROM_ISR(YieldRequie); //任务切换 
-		 }  
+		    }  
+	    
 	 }  
+	 EXTI_ClearITPendingBit(EXTI_Line4); 
  } 
+
  
