@@ -111,13 +111,13 @@ TaskHandle_t Task2_Handler;
 #define KEY_TASK_PRIORITY 4    
 void key_task( void * pvParameters );   
 TaskHandle_t Key_Handler;    
-   
-int main(void)   
+     
+int main(void)     
 {   
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);//设置系统中断优先级分组4    	 	 
-	delay_init();	    				//延时函数初始化	    
-	//uart_init(115200);					//初始化串口   
-	LED_INIT(0);		  					//初始化LED   
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);//设置系统中断优先级分组4      	 	 
+	delay_init();	    				//延时函数初始化	      
+	//uart_init(115200);					//初始化串口    
+	LED_INIT(0);		  					//初始化LED    
 	xTaskCreate( (TaskFunction_t) start_task,  
 			     (char *) "start_task",  
 			     (configSTACK_DEPTH_TYPE) START_STK_SIZE, 
@@ -126,7 +126,7 @@ int main(void)
 			     (TaskHandle_t *) &StartTask_Handler ); 
     vTaskStartScheduler();          //开启任务调度 
 } 
- 
+    
  void start_task ( void * pvParameters ) 
  { 
 	  //task 1 
@@ -151,8 +151,8 @@ int main(void)
 				 (TaskHandle_t*) &Key_Handler );	 		 
     vTaskDelete(StartTask_Handler ); 	 				  
 							  
- } 
-  
+ }  
+    
  void task1_task( void * pvParameters ) 
  { 
 //	 char i=0; 
@@ -167,9 +167,9 @@ int main(void)
         vTaskDelay(500);  		 
 	 } 
  } 
-  
-  
-  
+    
+   
+    
  void task2_task( void * pvParameters ) 
  { 
 	  while(1) 
@@ -180,10 +180,10 @@ int main(void)
          vTaskDelay(250); 	 	 
 	 }   
  } 
-
-   
-  
-  
+    
+     
+    
+    
  void key_task( void * pvParameters ) 
  { 
 	  while(1) 
@@ -208,7 +208,7 @@ int main(void)
 		} 
 	 } 
  } 
- 
+     
 ####  以下代码是基于上面的代码进一步修改   (测试从中断服务函数中恢复任务,PA2 控制 led1  PA8 控制 le0 )
 
 
