@@ -186,8 +186,52 @@ int main(void)
 	 }   
  }        
 ####  以下代码是基于上面的代码进一步修改   (测试从中断服务函数中恢复任务,PA2 控制 led1  PA8 控制 le0 PA3控制任务一的挂起和恢复和任务二的挂起，PA4的中断服务函数中实现任务二的恢复)
+注意： 
+注意事项(避免程序卡死)！！！ 
+中断函数中不可以使用vTaskDelay()！  
+##### 所以FreeRTOS的API函数只有带FromISR后缀的才能在中断函数中使用，而**vTaskDelay()**好像也没有FromISR版本，所以就不能使用！推而广之，其它不带FromISR后缀的API函数也不能在中断函数中使用！  
+中断函数中必须使用带FromISR后缀的API函数！   
+这一条和上一条其实是一个意思，实验中在中断函数中对信号量进行释放，使用的是xTaskResumeFromISR()函数，如果改成vTaskResume()，实测发现程序同样会卡死在这里。   
+加入以下代码  ：
+这里添加在led.c中，实现在中断里恢复一次任务 
+void EXTI_PA4_init(void)  //PA4 触发中断实现任务的恢复     
+{  
+	GPIO_InitTypeDef GPIO_EXTI_PA4;       
+	EXTI_InitTypeDef EXTI_GPIO_Typedef;      
+	NVIC_InitTypeDef NVIC_GPIO_Typedef;     
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA|RCC_APB2Periph_AFIO,ENABLE );     
+	GPIO_EXTI_PA4.GPIO_Mode  = GPIO_Mode_IPU ; // 上拉   
+	GPIO_EXTI_PA4.GPIO_Pin   = GPIO_Pin_4 ;    
+	GPIO_Init(GPIOA ,&GPIO_EXTI_PA4);   
+    EXTI_GPIO_Typedef.EXTI_Line  = EXTI_Line4 ;   
+	EXTI_GPIO_Typedef.EXTI_LineCmd = ENABLE ;   
+	EXTI_GPIO_Typedef.EXTI_Mode =EXTI_Mode_Interrupt ;    
+	EXTI_GPIO_Typedef.EXTI_Trigger =EXTI_Trigger_Falling ;  //下降沿触发   
+	EXTI_Init(&EXTI_GPIO_Typedef);   
+    GPIO_EXTILineConfig(GPIO_PortSourceGPIOA ,GPIO_PinSource4 );   
+    NVIC_GPIO_Typedef.NVIC_IRQChannel = EXTI4_IRQn ;    
+    NVIC_GPIO_Typedef.NVIC_IRQChannelCmd = ENABLE ;   
+	NVIC_GPIO_Typedef.NVIC_IRQChannelPreemptionPriority  = 6;   
+}   
+     
+ void EXTI4_IRQHandler(void)   
+ {  
+	 BaseType_t YieldRequie;  
+     delay_xms(10);  
+	 if(EXTI_GetITStatus(EXTI_Line4 )!=RESET)   
+	 {   
+		    YieldRequie = xTaskResumeFromISR(Task2_Handler);   
+		    if(YieldRequie == pdTRUE )  
+		    {     
+			 portYIELD_FROM_ISR(YieldRequie); //任务切换  
+		    }   
+	 }   
+	 EXTI_ClearITPendingBit(EXTI_Line4);   
+ }   
+  
 
-
+ 
+ 
 
 
 
