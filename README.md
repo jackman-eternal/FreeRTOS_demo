@@ -210,7 +210,6 @@ int main(void)
 	 }
  }
 
-![avatar](C:/Users/Q/Desktop/FreeRTOS_test/picture1.png)
 ####  以下代码是基于上面的代码进一步修改   (测试从中断服务函数中恢复任务,PA2 控制 led1  PA8 控制 le0 )
 
 
