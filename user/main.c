@@ -5,22 +5,26 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
-/******************************************
-任务的创建和删除
+//开始任务
 #define START_STK_SIZE 120 
 #define START_TASK_PRIORITY 1
 void start_task( void * pvParameters );
 TaskHandle_t  StartTask_Handler;
-
+//任务一
 #define TASK1_STK_SIZE 100 
 #define TASK1_TASK_PRIORITY 2
 void task1_task( void * pvParameters );
 TaskHandle_t Task1_Handler;
-
+//任务二
 #define TASK2_STK_SIZE 100 
 #define TASK2_TASK_PRIORITY 3
 void task2_task( void * pvParameters );
 TaskHandle_t Task2_Handler;
+//key_task
+#define KEY_STK_SIZE 100 
+#define KEY_TASK_PRIORITY 4
+void key_task( void * pvParameters );
+TaskHandle_t Key_Handler;
 
 int main(void)
 {
@@ -53,7 +57,13 @@ int main(void)
 				 (void *) NULL ,
 				 (UBaseType_t) TASK2_TASK_PRIORITY ,
 				 (TaskHandle_t*) &Task2_Handler );
-				  
+	  //key_task		  
+	 xTaskCreate( (TaskFunction_t) key_task ,
+				 (char *) "",
+				 (configSTACK_DEPTH_TYPE) KEY_STK_SIZE ,
+				 (void *) NULL ,
+				 (UBaseType_t) KEY_TASK_PRIORITY ,
+				 (TaskHandle_t*) &Key_Handler );			 
     vTaskDelete(StartTask_Handler ); 					  
 							  
  }
@@ -85,7 +95,33 @@ int main(void)
          vTaskDelay(250); 		 
 	 }
  }
- ********************/
+
+  
+ void key_task( void * pvParameters )
+ {
+	  while(1)
+	 {
+		 if(PAin(3) ==  1)  
+		{
+			vTaskDelay(10); //防抖
+			if(PAin(3) =  1)
+			{
+				vTaskSuspend(Task1_Handler);
+				vTaskDelay(20); 
+			} 
+		} 
+		if(PAin(3) ==  0)
+		{
+			vTaskDelay(10);
+			if(PAin(3) == 0)
+			{
+				vTaskResume(Task1_Handler);
+				vTaskDelay(20); 
+			}
+		}
+	 }
+ }
+
 
 
  

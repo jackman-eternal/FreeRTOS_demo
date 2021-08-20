@@ -13,7 +13,10 @@ void LED_INIT(int flag)
     GPIO_LED.GPIO_Pin  = GPIO_Pin_8 |GPIO_Pin_2 ;
     GPIO_LED.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init(GPIOA,&GPIO_LED ); 
-    GPIO_ResetBits(GPIOA,GPIO_Pin_8|GPIO_Pin_2 );   	
+    GPIO_ResetBits(GPIOA,GPIO_Pin_8|GPIO_Pin_2 );  
+    GPIO_LED.GPIO_Mode  = GPIO_Mode_IN_FLOATING ;
+    GPIO_LED.GPIO_Pin   = GPIO_Pin_3 ;
+    GPIO_Init(GPIOA,&GPIO_LED); 	
 	if(flag == 1)
 	{
 		GPIO_ResetBits(GPIOC ,GPIO_Pin_13 ); 
