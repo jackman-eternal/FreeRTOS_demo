@@ -228,6 +228,8 @@ void EXTI_PA4_init(void)  //PA4 触发中断实现任务的恢复
 	 }   
 	 EXTI_ClearITPendingBit(EXTI_Line4);   
  }   
+ ###### 如果在中断函数中使用了FreeRTOS的API函数，当然前提也是使用带FromISR后缀的，中断的优先级不能高于宏定义configMAX_SYSCALL_INTERRUPT_PRIORITY，这个宏定义在FreeRTOSConfig.h中：即中断优先级设置范围为5~15(0xf)。当然，如果中断函数中没有使用FreeRTOS的API，那么中断的优先级就不受限制。
+
   
 
  
