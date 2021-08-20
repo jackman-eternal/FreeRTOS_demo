@@ -52,14 +52,14 @@ int main(void)
 				 (TaskHandle_t*) &Task1_Handler );
       //task 2
     xTaskCreate( (TaskFunction_t) task2_task ,
-				 (char *) "",
+				 (char *) "task2_task",
 				 (configSTACK_DEPTH_TYPE) TASK2_STK_SIZE ,
 				 (void *) NULL ,
 				 (UBaseType_t) TASK2_TASK_PRIORITY ,
 				 (TaskHandle_t*) &Task2_Handler );
 	  //key_task		  
 	 xTaskCreate( (TaskFunction_t) key_task ,
-				 (char *) "",
+				 (char *) "key_task",
 				 (configSTACK_DEPTH_TYPE) KEY_STK_SIZE ,
 				 (void *) NULL ,
 				 (UBaseType_t) KEY_TASK_PRIORITY ,
