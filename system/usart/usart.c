@@ -56,7 +56,7 @@ int fputc(int ch, FILE *f)
     USART1->DR = (u8) ch;      
 	return ch;
 }
-#endif 
+//#endif 
 
  
  

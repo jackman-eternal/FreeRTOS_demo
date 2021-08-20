@@ -1884,8 +1884,8 @@
       <Doc>
         <Name>..\system\usart\usart.c</Name>
         <ColumnNumber>2</ColumnNumber>
-        <TopLine>36</TopLine>
-        <CurrentLine>37</CurrentLine>
+        <TopLine>44</TopLine>
+        <CurrentLine>59</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>
