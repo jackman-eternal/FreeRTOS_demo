@@ -97,23 +97,25 @@ int main(void)
  }
 
   
+ 
+ 
  void key_task( void * pvParameters )
  {
 	  while(1)
 	 {
-		 if(PAin(3) ==  1)  
+		 if(PAin(3)== 1)  
 		{
 			vTaskDelay(10); //·À¶¶
-			if(PAin(3) =  1)
+			if(PAin(3)== 1)
 			{
 				vTaskSuspend(Task1_Handler);
 				vTaskDelay(20); 
 			} 
 		} 
-		if(PAin(3) ==  0)
+		if(PAin(3)==0)
 		{
 			vTaskDelay(10);
-			if(PAin(3) == 0)
+			if(PAin(3)==0)
 			{
 				vTaskResume(Task1_Handler);
 				vTaskDelay(20); 
@@ -121,6 +123,8 @@ int main(void)
 		}
 	 }
  }
+
+
 
 
 
