@@ -5,7 +5,8 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
-
+/******************************************
+任务的创建和删除
 #define START_STK_SIZE 120 
 #define START_TASK_PRIORITY 1
 void start_task( void * pvParameters );
@@ -84,7 +85,7 @@ int main(void)
          vTaskDelay(250); 		 
 	 }
  }
- 
+ ********************/
 
 
  

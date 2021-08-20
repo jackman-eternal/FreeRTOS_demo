@@ -1,7 +1,8 @@
 # FreeRTOS_demo
 ## 参考正点原子的源码
-### 采用的单片机是stm32f103c8t6  本例程是测试任务的创建和删除
-#### 主函数内容
+### 采用的单片机是stm32f103c8t6  
+#### 主函数内容     以下代码是测试任务的创建和删除
+
 #define START_STK_SIZE 120 
 #define START_TASK_PRIORITY 1
 void start_task( void * pvParameters );
@@ -81,4 +82,5 @@ int main(void)
 	 }
  }
 
-##### 测试任务挂起和恢复实验
+##### 以下代码 测试任务挂起和恢复实验
+
