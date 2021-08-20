@@ -68,15 +68,9 @@ int main(void)
   
  void task1_task(void * pvParameters)  
  {  
-//	 char i=0; 
 	 while(1)  
 	 {  
-//		 if(i==5) 
-//		 { 
-//			 vTaskDelete(Task2_Handler );  
-//		 }
-		LED0 = ~LED0;  
-//		 i++; 
+		LED0 = ~LED0;   
         vTaskDelay(500);   		 
 	 }  
  }  
@@ -99,20 +93,14 @@ int main(void)
 			vTaskDelay(10); //·À¶¶ 
 			if(PAin(3)== 1) 
 			{
-				vTaskSuspend(Task1_Handler); 
 				vTaskSuspend(Task2_Handler); 
 				vTaskDelay(20);  
 			}  
 		}  
-		if(PAin(3)==0) 
-		{ 
-			vTaskDelay(10); 
-			if(PAin(3)==0) 
-			{ 
-				vTaskResume(Task1_Handler); 
-				vTaskDelay(20);  
-			} 
-		} 
+		else 
+		{
+			vTaskDelay(5); 
+		}
 	 } 
  } 
 
