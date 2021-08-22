@@ -45,7 +45,7 @@ void EXTI_PA4_init(void)  //PA4 触发中断实现任务的恢复
     NVIC_GPIO_Typedef.NVIC_IRQChannel = EXTI4_IRQn ;    
     NVIC_GPIO_Typedef.NVIC_IRQChannelCmd = ENABLE ;   
 	NVIC_GPIO_Typedef.NVIC_IRQChannelPreemptionPriority  = 6;   
-	NVIC_Init(& NVIC_GPIO_Typedef) ;
+	NVIC_Init(& NVIC_GPIO_Typedef) ;       //补
 }   
 void EXTI4_IRQHandler(void)   
 {  
