@@ -27,7 +27,6 @@ void LED_INIT(int flag)
 		GPIO_SetBits(GPIOC,GPIO_Pin_13 );  
 	} 
 } 
- 
 void EXTI_PA4_init(void)  //PA4 触发中断实现任务的恢复    
 { 
 	GPIO_InitTypeDef GPIO_EXTI_PA4;     
@@ -46,10 +45,10 @@ void EXTI_PA4_init(void)  //PA4 触发中断实现任务的恢复
     NVIC_GPIO_Typedef.NVIC_IRQChannel = EXTI4_IRQn ;    
     NVIC_GPIO_Typedef.NVIC_IRQChannelCmd = ENABLE ;   
 	NVIC_GPIO_Typedef.NVIC_IRQChannelPreemptionPriority  = 6;   
+	NVIC_Init(& NVIC_GPIO_Typedef) ;
 }   
-     
- void EXTI4_IRQHandler(void)   
- {  
+void EXTI4_IRQHandler(void)   
+{  
 	 BaseType_t YieldRequie;  
      delay_xms(10);  
 	 if(EXTI_GetITStatus(EXTI_Line4 )!=RESET)   
@@ -61,6 +60,11 @@ void EXTI_PA4_init(void)  //PA4 触发中断实现任务的恢复
 		    }   
 	 }   
 	 EXTI_ClearITPendingBit(EXTI_Line4);  
- }  
+}
+
 
  
+ 
+ 
+
+
