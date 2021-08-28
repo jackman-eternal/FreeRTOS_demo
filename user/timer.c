@@ -12,13 +12,13 @@ TIM5 CH1--PA0 CH2--PA1  CH3--PA2  CH4--PA3
  
 void TIM2_INIT(void)
 {
-//	GPIO_InitTypeDef        GPIO_TIM2;
 	TIM_TimeBaseInitTypeDef TIM2_TIMEBASE;
-	//TIM_OCInitTypeDef       TIM2_OCINIT;
 	NVIC_InitTypeDef        TIM2_NVIC;
+	//	GPIO_InitTypeDef        GPIO_TIM2;
+	//TIM_OCInitTypeDef       TIM2_OCINIT;
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2,ENABLE);
-//    
+   
 //    GPIO_TIM2.GPIO_Mode =GPIO_Mode_AF_PP;
 //    GPIO_TIM2.GPIO_Pin =GPIO_Pin_0 |GPIO_Pin_1 ;
 //	  GPIO_TIM2.GPIO_Speed = GPIO_Speed_50MHz ;
@@ -26,7 +26,7 @@ void TIM2_INIT(void)
 	
 	TIM2_NVIC.NVIC_IRQChannel = TIM2_IRQn ;
     TIM2_NVIC.NVIC_IRQChannelCmd  = ENABLE ;
-    TIM2_NVIC.NVIC_IRQChannelPreemptionPriority = 5;
+    TIM2_NVIC.NVIC_IRQChannelPreemptionPriority = 4;
 	TIM2_NVIC.NVIC_IRQChannelSubPriority = 0;
 	NVIC_Init(&TIM2_NVIC); 
 	
@@ -61,14 +61,12 @@ void TIM2_INIT(void)
 //TIM3 CH1--PA6 CH2--PA7  CH3--PB0  CH4--PB1 
 void TIM3_INIT(void)
 {
-//	GPIO_InitTypeDef        GPIO_TIM3;
 	TIM_TimeBaseInitTypeDef TIM3_TIMEBASE;
-//	TIM_OCInitTypeDef       TIM3_OCINIT;
 	NVIC_InitTypeDef        TIM3_NVIC;
-	
+	//	GPIO_InitTypeDef        GPIO_TIM3;
+	//	TIM_OCInitTypeDef       TIM3_OCINIT;	
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA|RCC_APB2Periph_GPIOB,ENABLE);
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3,ENABLE);
-    
 //    GPIO_TIM3.GPIO_Mode =GPIO_Mode_AF_PP;
 //    GPIO_TIM3.GPIO_Pin =GPIO_Pin_6 |GPIO_Pin_7 ;
 //	  GPIO_TIM3.GPIO_Speed = GPIO_Speed_50MHz ;
@@ -79,7 +77,7 @@ void TIM3_INIT(void)
 	
 	TIM3_NVIC.NVIC_IRQChannel = TIM3_IRQn ;
 	TIM3_NVIC.NVIC_IRQChannelCmd = ENABLE ;
-	TIM3_NVIC.NVIC_IRQChannelPreemptionPriority = 6;
+	TIM3_NVIC.NVIC_IRQChannelPreemptionPriority = 5;
 	TIM3_NVIC.NVIC_IRQChannelSubPriority = 0;
 	NVIC_Init(&TIM3_NVIC); 
 	
