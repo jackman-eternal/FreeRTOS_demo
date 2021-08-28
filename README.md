@@ -286,7 +286,7 @@ int main(void)
 		   printf("turn on \r\n");       
            portENABLE_INTERRUPTS();       		   
 	   }     
-	   vTaskDelay(1000);       
+	   vTaskDelay(1000); //任务应用函数可用，在中断服务函数不可用未带ISR后缀的FreeRTOS的API函数      
 	 }       
  }       
 ###### 对中断屏蔽实验的重要补充，由于解除中断只需要调用函数（vPortSetBASEPRI( 0 )），而其他的FreeRTOS的函数也可能会调用此函数，因此，285行的延时函数不用freeRTOS自带的延时函数，这里补充下，如果使用则屏蔽中断后马上解除，看不到效果。   
