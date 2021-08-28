@@ -20,7 +20,13 @@ TaskHandle_t Task1_Handler;
 #define LIST_STK_SIZE 128  
 #define LIST_TASK_PRIORITY 3  
 void list_task( void * pvParameters );  
-TaskHandle_t List_Handler;  
+TaskHandle_t List_Handler; 
+//定义一个列表和三个列表项
+List_t TestList;
+ListItem_t ListItem1;
+ListItem_t ListItem2;
+ListItem_t ListItem3;
+
 int main(void)  
 { 
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);//设置系统中断优先级分组4  	  	 
@@ -63,13 +69,31 @@ int main(void)
         vTaskDelay(500);   		 
 	 }  
  }  
- 
+ //初始化列表和列表项
  void list_task( void * pvParameters )
  {
-	 while(1)
-	 {
-		 
-	 }
+	 vListInitialise(&TestList );//初始化列表
+     vListInitialiseItem(&ListItem1);//初始化列表项
+     vListInitialiseItem(&ListItem2);
+     vListInitialiseItem(&ListItem3);
+     
+     ListItem1.xItemValue  = 40;
+     ListItem2.xItemValue  = 60;
+     ListItem3.xItemValue  = 50;
+     
+    //第二步：打印列表和其他列表项的地址
+	printf("/*******************列表和列表项地址*******************/\r\n");
+	printf("项目                              地址				    \r\n");
+	printf("TestList                          %#x					\r\n",(int)&TestList);
+	printf("TestList->pxIndex                 %#x					\r\n",(int)TestList.pxIndex);
+	printf("TestList->xListEnd                %#x					\r\n",(int)(&TestList.xListEnd));
+	printf("ListItem1                         %#x					\r\n",(int)&ListItem1);
+	printf("ListItem2                         %#x					\r\n",(int)&ListItem2);
+	printf("ListItem3                         %#x					\r\n",(int)&ListItem3);
+	printf("/************************结束**************************/\r\n");
+	printf("按下KEY_UP键继续!\r\n\r\n\r\n");
+	while(1);
+	 
  }
  
  
