@@ -15,3 +15,5 @@
 ..\obj_lis\timer.o: ..\Fwlib\inc\misc.h
 ..\obj_lis\timer.o: ..\system\delay\delay.h
 ..\obj_lis\timer.o: ..\system\sys\sys.h
+..\obj_lis\timer.o: ..\system\usart\usart.h
+..\obj_lis\timer.o: D:\software\keil\ARM\ARMCC\Bin\..\include\stdio.h
