@@ -26,7 +26,7 @@ void TIM2_INIT(void)
 	
 	TIM2_NVIC.NVIC_IRQChannel = TIM2_IRQn ;
     TIM2_NVIC.NVIC_IRQChannelCmd  = ENABLE ;
-    TIM2_NVIC.NVIC_IRQChannelPreemptionPriority = 4;
+    TIM2_NVIC.NVIC_IRQChannelPreemptionPriority = 5;
 	TIM2_NVIC.NVIC_IRQChannelSubPriority = 0;
 	NVIC_Init(&TIM2_NVIC); 
 	
@@ -79,7 +79,7 @@ void TIM3_INIT(void)
 	
 	TIM3_NVIC.NVIC_IRQChannel = TIM3_IRQn ;
 	TIM3_NVIC.NVIC_IRQChannelCmd = ENABLE ;
-	TIM3_NVIC.NVIC_IRQChannelPreemptionPriority = 5;
+	TIM3_NVIC.NVIC_IRQChannelPreemptionPriority = 6;
 	TIM3_NVIC.NVIC_IRQChannelSubPriority = 0;
 	NVIC_Init(&TIM3_NVIC); 
 	
@@ -109,7 +109,7 @@ void TIM3_INIT(void)
 //	TIM_OC4Init(TIM3,& TIM3_OCINIT);
 
     TIM_ITConfig(TIM3,TIM_IT_Update,ENABLE);
-    TIM_Cmd(TIM3 ,ENABLE ); 
+    TIM_Cmd(TIM3,ENABLE ); 
 }
 
 void TIM2_IRQHandler(void)

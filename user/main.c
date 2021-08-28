@@ -33,8 +33,10 @@ int main(void)
 			     (TaskHandle_t *) &StartTask_Handler ); 
     vTaskStartScheduler();          //开启任务调度 
 } 
+
  void start_task ( void * pvParameters ) 
- { 		 
+ { 	
+    taskENTER_CRITICAL();            //进入临界区	 
 	  //interrupt_task
     xTaskCreate( (TaskFunction_t) interrupt_task , 
 				 (char *)  "interrupt_task", 
@@ -42,12 +44,16 @@ int main(void)
 				 (void *) NULL , 
 				 (UBaseType_t) INT_TASK_PRIORITY , 
 				 (TaskHandle_t*) &Interrupt_Handler ); 
-    vTaskDelete(StartTask_Handler );   				  					  
+    vTaskDelete(StartTask_Handler );   
+    taskEXIT_CRITICAL();             //退出临界区				 
  } 
  
  void interrupt_task( void * pvParameters )
  {
-	// portENABLE_INTERRUPTS(); 
+	 while(1)
+	 {
+	
+	 }
  }
  
  
