@@ -27,6 +27,10 @@ void LED_INIT(int flag)
 		GPIO_SetBits(GPIOC,GPIO_Pin_13 );  
 	} 
   } 
+
+  
+  
+  
 //void EXTI_PA4_init(void)  //PA4 触发中断实现任务的恢复    
 //{ 
 //	GPIO_InitTypeDef GPIO_EXTI_PA4;     

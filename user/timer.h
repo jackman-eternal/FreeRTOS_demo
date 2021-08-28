@@ -19,12 +19,12 @@ TIM5 CH1--PA0 CH2--PA1  CH3--PA2  CH4--PA3
 void TIM2_ENCODER(void);
 void TIM4_ENCODER(void);
 void TIM3_INIT(void);
+void TIM5_INIT(void);
 int16_t TIM2_Encode_Read(void);
 int16_t TIM4_Encode_Read(void);
 
 //int16_t encoder_getCounter(void);
 //void TIM4_INIT(void);
-//void TIM5_INIT(void);
 
 #endif
 

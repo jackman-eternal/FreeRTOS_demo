@@ -11,6 +11,10 @@
 void start_task( void * pvParameters ); 
 TaskHandle_t  StartTask_Handler; 
 
+#define INT_STK_SIZE 128  
+#define INT_TASK_PRIORITY 2 
+void interrupt_task( void * pvParameters ); 
+TaskHandle_t  Interrupt_Handler; 
 int main(void) 
 { 
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);//设置系统中断优先级分组4 	  	 
@@ -27,29 +31,22 @@ int main(void)
 } 
  void start_task ( void * pvParameters ) 
  { 		 
-	  //task 1 
-    xTaskCreate( (TaskFunction_t) task1_task , 
-				 (char *)  "task1_task", 
-				 (configSTACK_DEPTH_TYPE) TASK1_STK_SIZE , 
+	  //interrupt_task
+    xTaskCreate( (TaskFunction_t) interrupt_task , 
+				 (char *)  "interrupt_task", 
+				 (configSTACK_DEPTH_TYPE) INT_STK_SIZE , 
 				 (void *) NULL , 
-				 (UBaseType_t) TASK1_TASK_PRIORITY , 
-				 (TaskHandle_t*) &Task1_Handler ); 
-      //task 2   任务2优先级高，先于任务1运行
-    xTaskCreate( (TaskFunction_t) task2_task , 
-				 (char *) "task2_task", 
-				 (configSTACK_DEPTH_TYPE) TASK2_STK_SIZE , 
-				 (void *) NULL , 
-				 (UBaseType_t) TASK2_TASK_PRIORITY , 
-				 (TaskHandle_t*) &Task2_Handler ); 
-	  //key_task 		  
-	xTaskCreate( (TaskFunction_t) key_task , 
-				 (char *) "key_task", 
-				 (configSTACK_DEPTH_TYPE) KEY_STK_SIZE , 
-				 (void *) NULL , 
-				 (UBaseType_t) KEY_TASK_PRIORITY , 
-				 (TaskHandle_t*) &Key_Handler ); 	
+				 (UBaseType_t) INT_TASK_PRIORITY , 
+				 (TaskHandle_t*) &Interrupt_Handler ); 
     vTaskDelete(StartTask_Handler );   				  					  
  } 
+ 
+ void interrupt_task( void * pvParameters )
+ {
+	 
+ }
+ 
+ 
  /***测试任务的挂起和恢复******** 
  //任务一
 #define TASK1_STK_SIZE 128  
