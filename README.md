@@ -282,15 +282,15 @@ int main(void)
 	   {     
 		   printf("turn off \r\n");      
 		   portDISABLE_INTERRUPTS();      
-           delay_xms(5000);     
+           delay_xms(5000);     //使用该函数可能不会引起任务调度，影响较小
 		   printf("turn on \r\n");       
            portENABLE_INTERRUPTS();       		   
 	   }     
 	   vTaskDelay(1000);       
 	 }       
  }       
-   
-   
+###### 对中断屏蔽实验的重要补充，由于解除中断只需要调用函数（vPortSetBASEPRI( 0 )），而其他的FreeRTOS的函数也可能会调用此函数，因此，285行的延时函数不用freeRTOS自带的延时函数，这里补充下，如果使用则屏蔽中断后马上解除，看不到效果。   
+
 
 
 
