@@ -9,12 +9,12 @@
 //开始任务
 #define START_STK_SIZE 128  
 #define START_TASK_PRIORITY 1 
-void start_task( void * pvParameters ); 
+void start_task(void * pvParameters ); 
 TaskHandle_t  StartTask_Handler; 
 
 #define INT_STK_SIZE 128  
 #define INT_TASK_PRIORITY 2 
-void interrupt_task( void * pvParameters ); 
+void interrupt_task(void * pvParameters ); 
 TaskHandle_t  Interrupt_Handler; 
 int main(void) 
 { 
@@ -47,7 +47,7 @@ int main(void)
  
  void interrupt_task( void * pvParameters )
  {
-	 
+	// portENABLE_INTERRUPTS(); 
  }
  
  

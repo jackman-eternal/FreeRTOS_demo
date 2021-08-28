@@ -12,17 +12,17 @@ TIM5 CH1--PA0 CH2--PA1  CH3--PA2  CH4--PA3
  
 void TIM2_INIT(void)
 {
-	GPIO_InitTypeDef        GPIO_TIM2;
+//	GPIO_InitTypeDef        GPIO_TIM2;
 	TIM_TimeBaseInitTypeDef TIM2_TIMEBASE;
 	//TIM_OCInitTypeDef       TIM2_OCINIT;
 	NVIC_InitTypeDef        TIM2_NVIC;
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2,ENABLE);
-    
-    GPIO_TIM2.GPIO_Mode =GPIO_Mode_AF_PP;
-    GPIO_TIM2.GPIO_Pin =GPIO_Pin_0 |GPIO_Pin_1 ;
-	GPIO_TIM2.GPIO_Speed = GPIO_Speed_50MHz ;
-	GPIO_Init(GPIOA ,&GPIO_TIM2);
+//    
+//    GPIO_TIM2.GPIO_Mode =GPIO_Mode_AF_PP;
+//    GPIO_TIM2.GPIO_Pin =GPIO_Pin_0 |GPIO_Pin_1 ;
+//	  GPIO_TIM2.GPIO_Speed = GPIO_Speed_50MHz ;
+//    GPIO_Init(GPIOA ,&GPIO_TIM2);
 	
 	TIM2_NVIC.NVIC_IRQChannel = TIM2_IRQn ;
     TIM2_NVIC.NVIC_IRQChannelCmd  = ENABLE ;
@@ -32,8 +32,8 @@ void TIM2_INIT(void)
 	
 	TIM2_TIMEBASE.TIM_ClockDivision =0;
 	TIM2_TIMEBASE.TIM_CounterMode =TIM_CounterMode_Up ;
-	TIM2_TIMEBASE.TIM_Period = 5000-1;
-	TIM2_TIMEBASE.TIM_Prescaler=720-1;
+	TIM2_TIMEBASE.TIM_Period = 10000-1;
+	TIM2_TIMEBASE.TIM_Prescaler=7200-1;
 	TIM_TimeBaseInit(TIM2,&TIM2_TIMEBASE);
 	
 //	TIM2_OCINIT.TIM_OCMode = TIM_OCMode_PWM1;
@@ -61,7 +61,7 @@ void TIM2_INIT(void)
 //TIM3 CH1--PA6 CH2--PA7  CH3--PB0  CH4--PB1 
 void TIM3_INIT(void)
 {
-	GPIO_InitTypeDef        GPIO_TIM3;
+//	GPIO_InitTypeDef        GPIO_TIM3;
 	TIM_TimeBaseInitTypeDef TIM3_TIMEBASE;
 //	TIM_OCInitTypeDef       TIM3_OCINIT;
 	NVIC_InitTypeDef        TIM3_NVIC;
@@ -69,24 +69,24 @@ void TIM3_INIT(void)
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA|RCC_APB2Periph_GPIOB,ENABLE);
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3,ENABLE);
     
-    GPIO_TIM3.GPIO_Mode =GPIO_Mode_AF_PP;
-    GPIO_TIM3.GPIO_Pin =GPIO_Pin_6 |GPIO_Pin_7 ;
-	GPIO_TIM3.GPIO_Speed = GPIO_Speed_50MHz ;
-	GPIO_Init(GPIOA ,&GPIO_TIM3);
-    GPIO_TIM3.GPIO_Mode =GPIO_Mode_AF_PP;
-    GPIO_TIM3.GPIO_Pin =GPIO_Pin_0 |GPIO_Pin_1 ;
-    GPIO_Init(GPIOB,&GPIO_TIM3);	
+//    GPIO_TIM3.GPIO_Mode =GPIO_Mode_AF_PP;
+//    GPIO_TIM3.GPIO_Pin =GPIO_Pin_6 |GPIO_Pin_7 ;
+//	  GPIO_TIM3.GPIO_Speed = GPIO_Speed_50MHz ;
+//	  GPIO_Init(GPIOA ,&GPIO_TIM3);
+//    GPIO_TIM3.GPIO_Mode =GPIO_Mode_AF_PP;
+//    GPIO_TIM3.GPIO_Pin =GPIO_Pin_0 |GPIO_Pin_1 ;
+//    GPIO_Init(GPIOB,&GPIO_TIM3);	
 	
 	TIM3_NVIC.NVIC_IRQChannel = TIM3_IRQn ;
 	TIM3_NVIC.NVIC_IRQChannelCmd = ENABLE ;
-	TIM3_NVIC.NVIC_IRQChannelPreemptionPriority = 3;
+	TIM3_NVIC.NVIC_IRQChannelPreemptionPriority = 5;
 	TIM3_NVIC.NVIC_IRQChannelSubPriority = 0;
 	NVIC_Init(&TIM3_NVIC); 
 	
 	TIM3_TIMEBASE.TIM_ClockDivision =0;
 	TIM3_TIMEBASE.TIM_CounterMode =TIM_CounterMode_Up ;
-	TIM3_TIMEBASE.TIM_Period = 5000-1;
-	TIM3_TIMEBASE.TIM_Prescaler=720-1;
+	TIM3_TIMEBASE.TIM_Period = 10000-1;
+	TIM3_TIMEBASE.TIM_Prescaler=7200-1;
 	TIM_TimeBaseInit(TIM3,&TIM3_TIMEBASE);
 	
 //	TIM3_OCINIT.TIM_OCMode = TIM_OCMode_PWM1;
@@ -115,9 +115,9 @@ void TIM3_INIT(void)
 void TIM2_IRQHandler(void)
 {
 	if(TIM_GetITStatus(TIM2,TIM_IT_Update )!=RESET)
-	{
+	  {
      	printf("TIM2 \r\n"); 
-    }
+      }
 	TIM_ClearITPendingBit(TIM2,TIM_IT_Update ); 
 }
 void TIM3_IRQHandler(void)
