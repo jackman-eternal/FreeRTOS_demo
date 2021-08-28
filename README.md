@@ -233,7 +233,6 @@ void EXTI_PA4_init(void)  //PA4 触发中断实现任务的恢复
 
  FreeRTOS关于任务调度的函数  
 
- 32423
 
  
 
