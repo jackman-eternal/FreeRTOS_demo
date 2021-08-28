@@ -10,28 +10,13 @@
 #define START_TASK_PRIORITY 1 
 void start_task( void * pvParameters ); 
 TaskHandle_t  StartTask_Handler; 
-//任务一
-#define TASK1_STK_SIZE 128  
-#define TASK1_TASK_PRIORITY 2  
-void task1_task( void * pvParameters );  
-TaskHandle_t Task1_Handler;  
-//任务二
-#define TASK2_STK_SIZE 128 
-#define TASK2_TASK_PRIORITY 3
-void task2_task( void * pvParameters );
-TaskHandle_t Task2_Handler;
-//key_task 
-#define KEY_STK_SIZE 128   
-#define KEY_TASK_PRIORITY 4
-void key_task( void * pvParameters );  
-TaskHandle_t Key_Handler; 
+
 int main(void) 
 { 
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);//设置系统中断优先级分组4 	  	 
 	delay_init();	    				//延时函数初始化	     
 	uart_init(9600);					//初始化串口   
 	LED_INIT(0);		  					//初始化LED   
-	EXTI_PA4_init();   
 	xTaskCreate( (TaskFunction_t) start_task, 
 			     (char *) "start_task", 
 			     (configSTACK_DEPTH_TYPE) START_STK_SIZE, 
@@ -65,7 +50,47 @@ int main(void)
 				 (TaskHandle_t*) &Key_Handler ); 	
     vTaskDelete(StartTask_Handler );   				  					  
  } 
-  
+ /***测试任务的挂起和恢复******** 
+ //任务一
+#define TASK1_STK_SIZE 128  
+#define TASK1_TASK_PRIORITY 2  
+void task1_task( void * pvParameters );  
+TaskHandle_t Task1_Handler;  
+//任务二
+#define TASK2_STK_SIZE 128 
+#define TASK2_TASK_PRIORITY 3
+void task2_task( void * pvParameters );
+TaskHandle_t Task2_Handler;
+//key_task 
+#define KEY_STK_SIZE 128   
+#define KEY_TASK_PRIORITY 4
+void key_task( void * pvParameters );  
+TaskHandle_t Key_Handler; 
+ void start_task ( void * pvParameters ) 
+ { 		 
+	  //task 1 
+    xTaskCreate( (TaskFunction_t) task1_task , 
+				 (char *)  "task1_task", 
+				 (configSTACK_DEPTH_TYPE) TASK1_STK_SIZE , 
+				 (void *) NULL , 
+				 (UBaseType_t) TASK1_TASK_PRIORITY , 
+				 (TaskHandle_t*) &Task1_Handler ); 
+      //task 2   任务2优先级高，先于任务1运行
+    xTaskCreate( (TaskFunction_t) task2_task , 
+				 (char *) "task2_task", 
+				 (configSTACK_DEPTH_TYPE) TASK2_STK_SIZE , 
+				 (void *) NULL , 
+				 (UBaseType_t) TASK2_TASK_PRIORITY , 
+				 (TaskHandle_t*) &Task2_Handler ); 
+	  //key_task 		  
+	xTaskCreate( (TaskFunction_t) key_task , 
+				 (char *) "key_task", 
+				 (configSTACK_DEPTH_TYPE) KEY_STK_SIZE , 
+				 (void *) NULL , 
+				 (UBaseType_t) KEY_TASK_PRIORITY , 
+				 (TaskHandle_t*) &Key_Handler ); 	
+    vTaskDelete(StartTask_Handler );   				  					  
+ } 
  void task1_task(void * pvParameters)  
  {  
 	 while(1)  
@@ -103,6 +128,4 @@ int main(void)
 		}
 	 } 
  } 
-
-
- 
+*******/

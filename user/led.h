@@ -11,6 +11,6 @@
 #define LED1 PAout(2)	// PD2	
 
 void LED_INIT(int flag);
-void EXTI_PA4_init(void);
-extern TaskHandle_t Task2_Handler;
+//void EXTI_PA4_init(void);
+//extern TaskHandle_t Task2_Handler;
 #endif
