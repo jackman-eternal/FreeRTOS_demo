@@ -4,6 +4,7 @@
 #include "sys.h"
 #include "FreeRTOS.h"
 #include "task.h"
+#include "timer.h"
 
 //开始任务
 #define START_STK_SIZE 128  
@@ -20,7 +21,10 @@ int main(void)
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);//设置系统中断优先级分组4 	  	 
 	delay_init();	    				//延时函数初始化	     
 	uart_init(9600);					//初始化串口   
-	LED_INIT(0);		  					//初始化LED   
+	LED_INIT(0);		  					//初始化LED 
+    TIM2_INIT(); 	
+   	TIM3_INIT();
+
 	xTaskCreate( (TaskFunction_t) start_task, 
 			     (char *) "start_task", 
 			     (configSTACK_DEPTH_TYPE) START_STK_SIZE, 

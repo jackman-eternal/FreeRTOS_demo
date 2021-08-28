@@ -9,9 +9,152 @@ TIM4 CH1--PB6 CH2--PB7  CH3--PB8  CH4--PB9
      /REMAP->1--PD12  2--PD13  3--PD14   4--PD15
 TIM5 CH1--PA0 CH2--PA1  CH3--PA2  CH4--PA3 
 */
+ 
+void TIM2_INIT(void)
+{
+	GPIO_InitTypeDef        GPIO_TIM2;
+	TIM_TimeBaseInitTypeDef TIM2_TIMEBASE;
+	TIM_OCInitTypeDef       TIM2_OCINIT;
+	NVIC_InitTypeDef        TIM2_NVIC;
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2,ENABLE);
+    
+    GPIO_TIM2.GPIO_Mode =GPIO_Mode_AF_PP;
+    GPIO_TIM2.GPIO_Pin =GPIO_Pin_0 |GPIO_Pin_1 ;
+	GPIO_TIM2.GPIO_Speed = GPIO_Speed_50MHz ;
+	GPIO_Init(GPIOA ,&GPIO_TIM2);
+	
+	TIM2_NVIC.NVIC_IRQChannel = TIM2_IRQn ;
+    TIM2_NVIC.NVIC_IRQChannelCmd  = ENABLE ;
+    TIM2_NVIC.NVIC_IRQChannelPreemptionPriority = 4;
+	TIM2_NVIC.NVIC_IRQChannelSubPriority = 0;
+	NVIC_Init(&TIM2_NVIC); 
+	TIM2_TIMEBASE.TIM_ClockDivision =0;
+	TIM2_TIMEBASE.TIM_CounterMode =TIM_CounterMode_Up ;
+	TIM2_TIMEBASE.TIM_Period = 2500-1;
+	TIM2_TIMEBASE.TIM_Prescaler=72-1;
+	TIM_TimeBaseInit(TIM2,&TIM2_TIMEBASE);
+	
+	TIM2_OCINIT.TIM_OCMode = TIM_OCMode_PWM1;
+	TIM2_OCINIT.TIM_OCPolarity =TIM_OCPolarity_High ;
+	TIM2_OCINIT.TIM_Pulse = 1250;
+	TIM_OC1PreloadConfig(TIM2,TIM_OCPreload_Enable);
+    TIM2_OCINIT.TIM_OutputState =ENABLE ;
+    TIM_OC1Init(TIM2,&TIM2_OCINIT);
+    TIM2_OCINIT.TIM_Pulse =800 ;
+	TIM_OC2PreloadConfig(TIM2,TIM_OCPreload_Enable );
+    TIM2_OCINIT.TIM_OutputState =ENABLE ;
+    TIM_OC2Init(TIM2,&TIM2_OCINIT);
+	TIM2_OCINIT.TIM_Pulse =800;
+	TIM2_OCINIT.TIM_OutputState =ENABLE ;
+	TIM_OC3PreloadConfig(TIM2,TIM_OCPreload_Enable);
+	TIM_OC3Init(TIM2,&TIM2_OCINIT);
+	TIM2_OCINIT.TIM_Pulse =800;
+	TIM2_OCINIT.TIM_OutputState=ENABLE ;
+	TIM_OC2PreloadConfig(TIM2,TIM_OCPreload_Enable); 
+	TIM_OC4Init(TIM2,&TIM2_OCINIT);
+   
+    TIM_Cmd(TIM2,ENABLE ); 
+}
 
-// TIM2 CH1--PA0 CH2--PA1  CH3--PA2  CH4--PA3  
+//TIM3 CH1--PA6 CH2--PA7  CH3--PB0  CH4--PB1 
+void TIM3_INIT(void)
+{
+	GPIO_InitTypeDef        GPIO_TIM3;
+	TIM_TimeBaseInitTypeDef TIM3_TIMEBASE;
+	TIM_OCInitTypeDef       TIM3_OCINIT;
+	NVIC_InitTypeDef        TIM3_NVIC;
+	
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA|RCC_APB2Periph_GPIOB,ENABLE);
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3,ENABLE);
+    
+    GPIO_TIM3.GPIO_Mode =GPIO_Mode_AF_PP;
+    GPIO_TIM3.GPIO_Pin =GPIO_Pin_6 |GPIO_Pin_7 ;
+	GPIO_TIM3.GPIO_Speed = GPIO_Speed_50MHz ;
+	GPIO_Init(GPIOA ,&GPIO_TIM3);
+    GPIO_TIM3.GPIO_Mode =GPIO_Mode_AF_PP;
+    GPIO_TIM3.GPIO_Pin =GPIO_Pin_0 |GPIO_Pin_1 ;
+    GPIO_Init(GPIOB,&GPIO_TIM3);	
+	
+	TIM3_NVIC.NVIC_IRQChannel = TIM3_IRQn ;
+	TIM3_NVIC.NVIC_IRQChannelCmd = ENABLE ;
+	TIM3_NVIC.NVIC_IRQChannelPreemptionPriority = 5;
+	TIM3_NVIC.NVIC_IRQChannelSubPriority = 0;
+	NVIC_Init(&TIM3_NVIC); 
+	TIM3_TIMEBASE.TIM_ClockDivision =0;
+	TIM3_TIMEBASE.TIM_CounterMode =TIM_CounterMode_Up ;
+	TIM3_TIMEBASE.TIM_Period = 2500-1;
+	TIM3_TIMEBASE.TIM_Prescaler=72-1;
+	TIM_TimeBaseInit(TIM3,&TIM3_TIMEBASE);
+	
+	TIM3_OCINIT.TIM_OCMode = TIM_OCMode_PWM1;
+	TIM3_OCINIT.TIM_OCPolarity =TIM_OCPolarity_High ;
+	
+	TIM3_OCINIT.TIM_Pulse = 1250;
+	TIM_OC1PreloadConfig(TIM3 ,TIM_OCPreload_Enable);
+    TIM3_OCINIT.TIM_OutputState =ENABLE ;
+    TIM_OC1Init(TIM3,&TIM3_OCINIT);
+	
+    TIM3_OCINIT.TIM_Pulse =800 ;
+	TIM_OC2PreloadConfig(TIM3,TIM_OCPreload_Enable );
+    TIM3_OCINIT.TIM_OutputState =ENABLE ;
+    TIM_OC2Init(TIM3,&TIM3_OCINIT);
 
+	TIM3_OCINIT.TIM_Pulse =800;
+	TIM3_OCINIT.TIM_OutputState =ENABLE ;
+	TIM_OC3PreloadConfig(TIM3,TIM_OCPreload_Enable);
+	TIM_OC3Init(TIM3,& TIM3_OCINIT);
+
+	TIM3_OCINIT.TIM_Pulse =800;
+	TIM3_OCINIT.TIM_OutputState=ENABLE ;
+	TIM_OC2PreloadConfig(TIM3,TIM_OCPreload_Enable); 
+	TIM_OC4Init(TIM3,& TIM3_OCINIT);
+   
+    TIM_Cmd(TIM3 ,ENABLE ); 
+}
+
+
+
+
+
+
+/*int16_t encoder_getCounter(void)
+{
+  TIM_SetCounter(TIM2,0);
+  delay_ms(10);
+  return (int16_t)TIM_GetCounter(TIM2);   //这里利用了原码补码的特性可以输出正负
+  //printf("counter:%d\n",(int16_t)TIM_GetCounter(TIM2));
+}
+*/
+
+/*
+int16_t  TIM2_Encode_Read(void)
+{
+    TIM_SetCounter(TIM2,0);
+	delay_ms(10); 
+	return (int16_t)TIM_GetCounter(TIM2);
+}
+
+int16_t TIM4_Encode_Read(void)
+{
+	 TIM_SetCounter(TIM4,0);
+	delay_ms(10); 
+	return (int16_t)TIM_GetCounter(TIM4);
+}
+void TIM2_IRQHandler(void)
+{
+	if(TIM2->SR&0X0001)//溢出中断
+	{
+	}
+    TIM2->SR&=~(1<<0);//清除中断标志位
+} 
+void TIM4_IRQHandler(void)
+{
+	if(TIM4->SR&0X0001)//溢出中断
+	{
+	}
+    TIM4->SR&=~(1<<0);//清除中断标志位
+} 
 
 void TIM2_ENCODER(void)
 {
@@ -75,143 +218,6 @@ void TIM4_ENCODER(void)
   //Reset counter
   TIM_SetCounter(TIM4,0);
   TIM_Cmd(TIM4, ENABLE); 
-
-
-}
-//TIM3 CH1--PA6 CH2--PA7  CH3--PB0  CH4--PB1 
-void TIM3_INIT(void)
-{
-	GPIO_InitTypeDef        GPIO_TIM5;
-	TIM_TimeBaseInitTypeDef TIM5_TIMEBASE;
-	TIM_OCInitTypeDef       TIM5_OCINIT;
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM5,ENABLE);
-    
-    GPIO_TIM5.GPIO_Mode =GPIO_Mode_AF_PP;
-    GPIO_TIM5.GPIO_Pin =GPIO_Pin_0 |GPIO_Pin_1|GPIO_Pin_2 |GPIO_Pin_3  ;
-	GPIO_TIM5.GPIO_Speed = GPIO_Speed_50MHz ;
-	GPIO_Init(GPIOA ,&GPIO_TIM5);
- 
-	TIM5_TIMEBASE.TIM_ClockDivision =0;
-	TIM5_TIMEBASE.TIM_CounterMode =TIM_CounterMode_Up ;
-	TIM5_TIMEBASE.TIM_Period = 2500-1;
-	TIM5_TIMEBASE.TIM_Prescaler=72-1;
-	TIM_TimeBaseInit(TIM5,&TIM5_TIMEBASE);
-	
-	TIM5_OCINIT.TIM_OCMode = TIM_OCMode_PWM1;
-	TIM5_OCINIT.TIM_OCPolarity =TIM_OCPolarity_High ;
-	
-	TIM5_OCINIT.TIM_Pulse = 1250;
-	TIM_OC1PreloadConfig(TIM5 ,TIM_OCPreload_Enable);
-    TIM5_OCINIT.TIM_OutputState =ENABLE ;
-    TIM_OC1Init(TIM5,&TIM5_OCINIT);
-	
-    TIM5_OCINIT.TIM_Pulse =800 ;
-	TIM_OC2PreloadConfig(TIM5,TIM_OCPreload_Enable );
-    TIM5_OCINIT.TIM_OutputState =ENABLE ;
-    TIM_OC2Init(TIM5,&TIM5_OCINIT);
-
-	TIM5_OCINIT.TIM_Pulse =800;
-	TIM5_OCINIT.TIM_OutputState =ENABLE ;
-	TIM_OC3PreloadConfig(TIM5,TIM_OCPreload_Enable);
-	TIM_OC3Init(TIM5,& TIM5_OCINIT);
-
-	TIM5_OCINIT.TIM_Pulse =800;
-	TIM5_OCINIT.TIM_OutputState=ENABLE ;
-	TIM_OC2PreloadConfig(TIM5,TIM_OCPreload_Enable); 
-	TIM_OC4Init(TIM5,& TIM5_OCINIT);
-   
-    TIM_Cmd(TIM5 ,ENABLE );   
-}
-
-void TIM5_INIT(void)
-{
-	GPIO_InitTypeDef        GPIO_TIM3;
-	TIM_TimeBaseInitTypeDef TIM3_TIMEBASE;
-	TIM_OCInitTypeDef       TIM3_OCINIT;
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA|RCC_APB2Periph_GPIOB,ENABLE);
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3,ENABLE);
-    
-    GPIO_TIM3.GPIO_Mode =GPIO_Mode_AF_PP;
-    GPIO_TIM3.GPIO_Pin =GPIO_Pin_6 |GPIO_Pin_7 ;
-	GPIO_TIM3.GPIO_Speed = GPIO_Speed_50MHz ;
-	GPIO_Init(GPIOA ,&GPIO_TIM3);
-    GPIO_TIM3.GPIO_Mode =GPIO_Mode_AF_PP;
-    GPIO_TIM3.GPIO_Pin =GPIO_Pin_0 |GPIO_Pin_1 ;
-    GPIO_Init(GPIOB,&GPIO_TIM3);	
-	
-	TIM3_TIMEBASE.TIM_ClockDivision =0;
-	TIM3_TIMEBASE.TIM_CounterMode =TIM_CounterMode_Up ;
-	TIM3_TIMEBASE.TIM_Period = 2500-1;
-	TIM3_TIMEBASE.TIM_Prescaler=72-1;
-	TIM_TimeBaseInit(TIM3,&TIM3_TIMEBASE);
-	
-	TIM3_OCINIT.TIM_OCMode = TIM_OCMode_PWM1;
-	TIM3_OCINIT.TIM_OCPolarity =TIM_OCPolarity_High ;
-	
-	TIM3_OCINIT.TIM_Pulse = 1250;
-	TIM_OC1PreloadConfig(TIM3 ,TIM_OCPreload_Enable);
-    TIM3_OCINIT.TIM_OutputState =ENABLE ;
-    TIM_OC1Init(TIM3,&TIM3_OCINIT);
-	
-    TIM3_OCINIT.TIM_Pulse =800 ;
-	TIM_OC2PreloadConfig(TIM3,TIM_OCPreload_Enable );
-    TIM3_OCINIT.TIM_OutputState =ENABLE ;
-    TIM_OC2Init(TIM3,&TIM3_OCINIT);
-
-	TIM3_OCINIT.TIM_Pulse =800;
-	TIM3_OCINIT.TIM_OutputState =ENABLE ;
-	TIM_OC3PreloadConfig(TIM3,TIM_OCPreload_Enable);
-	TIM_OC3Init(TIM3,& TIM3_OCINIT);
-
-	TIM3_OCINIT.TIM_Pulse =800;
-	TIM3_OCINIT.TIM_OutputState=ENABLE ;
-	TIM_OC2PreloadConfig(TIM3,TIM_OCPreload_Enable); 
-	TIM_OC4Init(TIM3,& TIM3_OCINIT);
-   
-    TIM_Cmd(TIM3 ,ENABLE ); 
-}
-
-
-//void TIM4_INIT(void);
-
-
-/*int16_t encoder_getCounter(void)
-{
-  TIM_SetCounter(TIM2,0);
-  delay_ms(10);
-  return (int16_t)TIM_GetCounter(TIM2);   //这里利用了原码补码的特性可以输出正负
-  //printf("counter:%d\n",(int16_t)TIM_GetCounter(TIM2));
 }
 */
-
-int16_t  TIM2_Encode_Read(void)
-{
-    TIM_SetCounter(TIM2,0);
-	delay_ms(10); 
-	return (int16_t)TIM_GetCounter(TIM2);
-}
-
-int16_t TIM4_Encode_Read(void)
-{
-	 TIM_SetCounter(TIM4,0);
-	delay_ms(10); 
-	return (int16_t)TIM_GetCounter(TIM4);
-}
-void TIM2_IRQHandler(void)
-{
-	if(TIM2->SR&0X0001)//溢出中断
-	{
-	}
-    TIM2->SR&=~(1<<0);//清除中断标志位
-} 
-
-void TIM4_IRQHandler(void)
-{
-	if(TIM4->SR&0X0001)//溢出中断
-	{
-	}
-    TIM4->SR&=~(1<<0);//清除中断标志位
-} 
-
 

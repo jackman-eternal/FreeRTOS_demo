@@ -27,3 +27,4 @@
 ..\obj_lis\main.o: ..\FreeRTOS\include\mpu_wrappers.h
 ..\obj_lis\main.o: ..\FreeRTOS\include\task.h
 ..\obj_lis\main.o: ..\FreeRTOS\include\list.h
+..\obj_lis\main.o: ..\user\timer.h
