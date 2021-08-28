@@ -231,7 +231,7 @@ void EXTI_PA4_init(void)  //PA4 触发中断实现任务的恢复
  ###### 如果在中断函数中使用了FreeRTOS的API函数，当然前提也是使用带FromISR后缀的，中断的优先级不能高于宏定义configMAX_SYSCALL_INTERRUPT_PRIORITY，这个宏定义在FreeRTOSConfig.h中：即中断优先级设置范围为5~15(0xf)。当然，如果中断函数中没有使用FreeRTOS的API，那么中断的优先级就不受限制。
  [https://blog.csdn.net/hqy450665101/article/details/113283748?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522163006782716780269811042%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=163006782716780269811042&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v29_ecpm-1-113283748.first_rank_v2_pc_rank_v29&utm_term=freeRTOS%E5%9C%A8%E4%B8%AD%E6%96%AD%E5%87%BD%E6%95%B0%E6%81%A2%E5%A4%8D%E4%BB%BB%E5%8A%A1&spm=1018.2226.3001.4187]FreeRTOS关于任务调度的函数
 
- 测试连接
+ 
 
 
  
