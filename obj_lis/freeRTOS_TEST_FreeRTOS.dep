@@ -1,6 +1,6 @@
 Dependencies for Project 'freeRTOS_TEST', Target 'FreeRTOS': (DO NOT MODIFY !)
 CompilerVersion: 5060960::V5.06 update 7 (build 960)::.\ARMCC
-F (..\user\main.c)(0x612A2922)(-c --cpu Cortex-M3 -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ..\cmsis -I ..\Fwlib\inc -I ..\user -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM3 -I ..\system\delay -I ..\system\sys -I ..\system\usart -I ..\FreeRTOS\portable\MemMang -I ..\FreeRTOS\portable\RVDS\ARM_CM3-ID:\software\keil\Keil\STM32F1xx_DFP\2.1.0\Device\Include-ID:\software\keil\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD-o ..\obj_lis\main.o --omf_browse ..\obj_lis\main.crf --depend ..\obj_lis\main.d)
+F (..\user\main.c)(0x612A29F8)(-c --cpu Cortex-M3 -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ..\cmsis -I ..\Fwlib\inc -I ..\user -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM3 -I ..\system\delay -I ..\system\sys -I ..\system\usart -I ..\FreeRTOS\portable\MemMang -I ..\FreeRTOS\portable\RVDS\ARM_CM3-ID:\software\keil\Keil\STM32F1xx_DFP\2.1.0\Device\Include-ID:\software\keil\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD-o ..\obj_lis\main.o --omf_browse ..\obj_lis\main.crf --depend ..\obj_lis\main.d)
 I (..\cmsis\stm32f10x.h)(0x4D783CB4)
 I (..\cmsis\core_cm3.h)(0x4D523B58)
 I (D:\software\keil\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)

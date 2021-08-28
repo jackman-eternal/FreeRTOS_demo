@@ -50,9 +50,19 @@ int main(void)
  
  void interrupt_task( void * pvParameters )
  {
+	 static u32 num = 0;
 	 while(1)
 	 {
-	
+	   num ++ ;
+	   if(num == 10)
+	   {
+		   printf("turn off \r\n"); 
+		   portDISABLE_INTERRUPTS();
+           delay_xms(5000);
+		   printf("turn on \r\n"); 
+           portENABLE_INTERRUPTS();  		   
+	   }
+	   vTaskDelay(1000); 
 	 }
  }
  
