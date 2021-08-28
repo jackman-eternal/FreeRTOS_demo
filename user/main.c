@@ -10,7 +10,71 @@
 #define START_STK_SIZE 128   
 #define START_TASK_PRIORITY 1  
 void start_task(void * pvParameters );  
-TaskHandle_t  StartTask_Handler;  
+TaskHandle_t  StartTask_Handler; 
+ //任务一
+#define TASK1_STK_SIZE 128  
+#define TASK1_TASK_PRIORITY 2  
+void task1_task( void * pvParameters );  
+TaskHandle_t Task1_Handler;  
+ //列表
+#define LIST_STK_SIZE 128  
+#define LIST_TASK_PRIORITY 3  
+void list_task( void * pvParameters );  
+TaskHandle_t List_Handler;  
+int main(void)  
+{ 
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);//设置系统中断优先级分组4  	  	 
+	delay_init();	    				//延时函数初始化	      
+	uart_init(9600);					//初始化串口    
+	LED_INIT(0);		  					//初始化LED  
+	xTaskCreate( (TaskFunction_t) start_task,  
+			     (char *) "start_task",   
+			     (configSTACK_DEPTH_TYPE) START_STK_SIZE,   
+			     ( void *) NULL,   
+			     (UBaseType_t) START_TASK_PRIORITY,   
+			     (TaskHandle_t *) &StartTask_Handler );   
+    vTaskStartScheduler();          //开启任务调度  
+}   
+ void start_task ( void * pvParameters )   
+ { 	  
+    taskENTER_CRITICAL();            //进入临界区	 
+    //task 1 
+    xTaskCreate( (TaskFunction_t) task1_task , 
+				 (char *)  "task1_task", 
+				 (configSTACK_DEPTH_TYPE) TASK1_STK_SIZE , 
+				 (void *) NULL , 
+				 (UBaseType_t) TASK1_TASK_PRIORITY , 
+				 (TaskHandle_t*) &Task1_Handler ); 	 
+	//list_task    
+    xTaskCreate( (TaskFunction_t) list_task ,   
+				 (char *)  "list_task",    
+				 (configSTACK_DEPTH_TYPE) LIST_STK_SIZE ,    
+				 (void *) NULL ,    
+				 (UBaseType_t) LIST_TASK_PRIORITY ,    
+				 (TaskHandle_t*) &List_Handler );    
+    vTaskDelete(StartTask_Handler );     
+    taskEXIT_CRITICAL();             //退出临界区	  			 
+ }   
+ void task1_task(void * pvParameters)  
+ {  
+	 while(1)  
+	 {  
+		LED0 = ~LED0;   
+        vTaskDelay(500);   		 
+	 }  
+ }  
+ 
+ void list_task( void * pvParameters )
+ {
+	 while(1)
+	 {
+		 
+	 }
+ }
+ 
+ 
+ 
+/*****中断任务的屏蔽与解除
 //中断任务 
 #define INT_STK_SIZE 128    
 #define INT_TASK_PRIORITY 2  
@@ -64,7 +128,7 @@ int main(void)
 	   vTaskDelay(1000);   
 	 }   
  }   
- 
+ */
  
  /***测试任务的挂起和恢复******** 
  //任务一
