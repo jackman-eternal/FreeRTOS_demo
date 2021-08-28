@@ -231,7 +231,67 @@ void EXTI_PA4_init(void)  //PA4 触发中断实现任务的恢复
  ###### 如果在中断函数中使用了FreeRTOS的API函数，当然前提也是使用带FromISR后缀的，中断的优先级不能高于宏定义configMAX_SYSCALL_INTERRUPT_PRIORITY，这个宏定义在FreeRTOSConfig.h中：即中断优先级设置范围为5~15(0xf)。当然，如果中断函数中没有使用FreeRTOS的API，那么中断的优先级就不受限制。
  [https://blog.csdn.net/hqy450665101/article/details/113283748?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522163006782716780269811042%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=163006782716780269811042&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v29_ecpm-1-113283748.first_rank_v2_pc_rank_v29&utm_term=freeRTOS%E5%9C%A8%E4%B8%AD%E6%96%AD%E5%87%BD%E6%95%B0%E6%81%A2%E5%A4%8D%E4%BB%BB%E5%8A%A1&spm=1018.2226.3001.4187]  
  FreeRTOS关于任务调度的函数  
- ######　以下代码是测试freertos的中断的屏蔽实验
+ ######　以下代码是测试freertos的中断的屏蔽实验（主要实现的功能，利用定时器2，3更新中断，并且在中断服务函数中打印相关提示，由于TIM2的中断优先级是4，故无法屏蔽，而TIM3的中断优先级为5，可以屏蔽）代码如下：
+ 主函数中代码：  
+//开始任务   
+#define START_STK_SIZE 128     
+#define START_TASK_PRIORITY 1    
+void start_task(void * pvParameters );    
+TaskHandle_t  StartTask_Handler;    
+//中断任务   
+#define INT_STK_SIZE 128      
+#define INT_TASK_PRIORITY 2    
+void interrupt_task(void * pvParameters );    
+TaskHandle_t  Interrupt_Handler;    
+int main(void)    
+{   
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);//设置系统中断优先级分组4    	  	 
+	delay_init();	    				//延时函数初始化	        
+	uart_init(9600);					//初始化串口      
+	LED_INIT(0);		  					//初始化LED     
+    TIM2_INIT(); 	   
+   	TIM3_INIT();         
+	xTaskCreate( (TaskFunction_t) start_task,    
+			     (char *) "start_task",     
+			     (configSTACK_DEPTH_TYPE) START_STK_SIZE,     
+			     ( void *) NULL,      
+			     (UBaseType_t) START_TASK_PRIORITY,      
+			     (TaskHandle_t *) &StartTask_Handler );       
+    vTaskStartScheduler();          //开启任务调度     
+}      
+ void start_task ( void * pvParameters )      
+ { 	     
+    taskENTER_CRITICAL();            //进入临界区    	   
+	  //interrupt_task       
+    xTaskCreate( (TaskFunction_t) interrupt_task ,      
+				 (char *)  "interrupt_task",       
+				 (configSTACK_DEPTH_TYPE) INT_STK_SIZE ,       
+				 (void *) NULL ,       
+				 (UBaseType_t) INT_TASK_PRIORITY ,       
+				 (TaskHandle_t*) &Interrupt_Handler );         
+    vTaskDelete(StartTask_Handler );        
+    taskEXIT_CRITICAL();             //退出临界区    	  			 
+ }      
+ void interrupt_task( void * pvParameters )      
+ {      
+	 static u32 num = 0 ;       
+	 while(1)     
+	 {      
+	   num ++ ;      
+	   if(num == 10)      
+	   {     
+		   printf("turn off \r\n");      
+		   portDISABLE_INTERRUPTS();      
+           delay_xms(5000);     
+		   printf("turn on \r\n");       
+           portENABLE_INTERRUPTS();       		   
+	   }     
+	   vTaskDelay(1000);       
+	 }       
+ }       
+   
+   
+
 
 
  
