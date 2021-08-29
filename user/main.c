@@ -7,25 +7,25 @@
 #include "list.h"
 
 //开始任务 
-#define START_STK_SIZE 128   
+#define START_STK_SIZE 50   
 #define START_TASK_PRIORITY 1  
 void start_task(void * pvParameters );  
 TaskHandle_t  StartTask_Handler; 
  //任务一
-#define TASK1_STK_SIZE 128  
-#define TASK1_TASK_PRIORITY 3  
+#define TASK1_STK_SIZE 50  
+#define TASK1_TASK_PRIORITY 2  
 void task1_task( void * pvParameters );  
 TaskHandle_t Task1_Handler;  
  //查询
-#define QUERY_STK_SIZE 128  
-#define QUERY_TASK_PRIORITY 2  
+#define QUERY_STK_SIZE 256  
+#define QUERY_TASK_PRIORITY 3  
 void query_task( void * pvParameters );  
 TaskHandle_t Query_Handler;  
 
 int main(void)  
 { 
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);//设置系统中断优先级分组4  	  	 
-	delay_init();	    				           //延时函数初始化	      
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4); //设置系统中断优先级分组4  	  	 
+	delay_init();	    				            //延时函数初始化	      
 	uart_init(9600);				            	//初始化串口    
 	LED_INIT(0);		  				        	//初始化LED  
 	xTaskCreate( (TaskFunction_t) start_task,  
@@ -61,25 +61,42 @@ int main(void)
 	 while(1)  
 	 {  
 		//LED0 = ~LED0;
-      	GPIO_SetBits(GPIOC,GPIO_Pin_13 ); 	 
-        vTaskDelay(1000);
+      	GPIO_SetBits(GPIOC,GPIO_Pin_13 ); 
+        delay_xms(1000); 		 
         GPIO_ResetBits(GPIOC,GPIO_Pin_13); 
-        vTaskDelay(1000); 		 
+        delay_xms(1000);		 
 	 }  
  }  
-void query_task( void * pvParameters )
+void query_task(void * pvParameters)
 {
 	static uint32_t  num = 0;
-	UBaseType_t  Priority;
-    Priority = uxTaskPriorityGet(Query_Handler); 
-	 while(1)  
-	 {  
-        num ++;
-        if(num >1000)
+	uint32_t Total_time;
+	UBaseType_t ArraySize,x;
+	TaskStatus_t* StatusArray;
+//	  UBaseType_t  Priority;
+//    Priority = uxTaskPriorityGet(Query_Handler); //获取任务优先级
+	
+	ArraySize = uxTaskGetNumberOfTasks(); //获取系统任务数量
+	StatusArray = pvPortMalloc(ArraySize*sizeof(TaskStatus_t));//为这个数组申请内存
+	if(StatusArray!=NULL)
+	{
+	     ArraySize = uxTaskGetSystemState((TaskStatus_t* )  StatusArray, 
+			                              (UBaseType_t   )   ArraySize, 
+									      (uint32_t*     )   &Total_time );
+		printf("TaskName\t\tPriority\t\tTaskNumber\t\t\r\n");
+		for(x=0;x<ArraySize;x++)
 		{
-			num = 0;
-		}			
-	 }  
+			//通过串口打印出获取到的系统任务的有关信息，比如任务名称、
+			//任务优先级和任务编号。
+			printf("%s\t\t%d\t\t\t%d\t\t\t\r\n",				
+					StatusArray[x].pcTaskName,
+					(int)StatusArray[x].uxCurrentPriority,
+					(int)StatusArray[x].xTaskNumber);
+			
+		}
+	}
+    vPortFree(StatusArray);	//释放内存
+    while(1);
 }
 
 
