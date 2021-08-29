@@ -28,10 +28,13 @@ Project File Date:  08/28/2021
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'D:\software\keil\ARM\ARMCC\Bin'
 Build target 'FreeRTOS'
 compiling main.c...
+..\user\main.c(73): warning:  #550-D: variable "Priority"  was set but never used
+  	UBaseType_t  Priority;
+..\user\main.c: 1 warning, 0 errors
 linking...
-Program Size: Code=9664 RO-data=268 RW-data=176 ZI-data=17432  
+Program Size: Code=9780 RO-data=268 RW-data=184 ZI-data=17432  
 FromELF: creating hex file...
-"..\obj_lis\car.axf" - 0 Error(s), 0 Warning(s).
+"..\obj_lis\car.axf" - 0 Error(s), 1 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -44,7 +47,7 @@ Package Vendor: Keil
   D:\software\keil\Keil\STM32F1xx_DFP\2.1.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>

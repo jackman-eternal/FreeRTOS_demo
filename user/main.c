@@ -13,10 +13,14 @@ void start_task(void * pvParameters );
 TaskHandle_t  StartTask_Handler; 
  //任务一
 #define TASK1_STK_SIZE 128  
-#define TASK1_TASK_PRIORITY 2  
+#define TASK1_TASK_PRIORITY 3  
 void task1_task( void * pvParameters );  
 TaskHandle_t Task1_Handler;  
-
+ //查询
+#define QUERY_STK_SIZE 128  
+#define QUERY_TASK_PRIORITY 2  
+void query_task( void * pvParameters );  
+TaskHandle_t Query_Handler;  
 
 int main(void)  
 { 
@@ -42,13 +46,13 @@ int main(void)
 				 (void *) NULL , 
 				 (UBaseType_t) TASK1_TASK_PRIORITY , 
 				 (TaskHandle_t*) &Task1_Handler ); 	 
-//	//list_task    
-//    xTaskCreate( (TaskFunction_t) list_task ,   
-//				 (char *)  "list_task",    
-//				 (configSTACK_DEPTH_TYPE) LIST_STK_SIZE ,    
-//				 (void *) NULL ,    
-//				 (UBaseType_t) LIST_TASK_PRIORITY ,    
-//				 (TaskHandle_t*) &List_Handler );    
+    //query_task    
+    xTaskCreate( (TaskFunction_t) query_task ,   
+				 (char *)  "query_task",    
+				 (configSTACK_DEPTH_TYPE) QUERY_STK_SIZE ,    
+				 (void *) NULL ,    
+				 (UBaseType_t) QUERY_TASK_PRIORITY ,    
+				 (TaskHandle_t*) &Query_Handler );    
     vTaskDelete(StartTask_Handler );     
     taskEXIT_CRITICAL();             //退出临界区	  			 
  }   
@@ -56,11 +60,27 @@ int main(void)
  {  
 	 while(1)  
 	 {  
-		LED0 = ~LED0;   
-        vTaskDelay(500);   		 
+		//LED0 = ~LED0;
+      	GPIO_SetBits(GPIOC,GPIO_Pin_13 ); 	 
+        vTaskDelay(1000);
+        GPIO_ResetBits(GPIOC,GPIO_Pin_13); 
+        vTaskDelay(1000); 		 
 	 }  
  }  
-
+void query_task( void * pvParameters )
+{
+	static uint32_t  num = 0;
+	UBaseType_t  Priority;
+    Priority = uxTaskPriorityGet(Query_Handler); 
+	 while(1)  
+	 {  
+        num ++;
+        if(num >1000)
+		{
+			num = 0;
+		}			
+	 }  
+}
 
 
 
