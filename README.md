@@ -290,7 +290,9 @@ int main(void)
 	 }       
  }       
 ###### 对中断屏蔽实验的重要补充，由于解除中断只需要调用函数（vPortSetBASEPRI( 0 )），而其他的FreeRTOS的函数也可能会调用此函数，因此，285行的延时函数不用freeRTOS自带的延时函数，这里补充下，如果使用则屏蔽中断后马上解除，看不到效果。
-
+UBaseType_t  Priority;   
+Priority = uxTaskPriorityGet(Query_Handler);   
+调用此函数可查询优先级 
 
 
 
