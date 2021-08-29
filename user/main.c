@@ -12,7 +12,7 @@
 void start_task(void * pvParameters );  
 TaskHandle_t  StartTask_Handler; 
  //任务一
-#define TASK1_STK_SIZE 50  
+#define TASK1_STK_SIZE 128  
 #define TASK1_TASK_PRIORITY 2  
 void task1_task( void * pvParameters );  
 TaskHandle_t Task1_Handler;  
@@ -60,11 +60,10 @@ int main(void)
  {  
 	 while(1)  
 	 {  
-		//LED0 = ~LED0;
       	GPIO_SetBits(GPIOC,GPIO_Pin_13 ); 
-        delay_xms(1000); 		 
+        vTaskDelay(2000); 		 
         GPIO_ResetBits(GPIOC,GPIO_Pin_13); 
-        delay_xms(1000);		 
+        vTaskDelay(2000); 
 	 }  
  }  
 void query_task(void * pvParameters)
@@ -95,7 +94,7 @@ void query_task(void * pvParameters)
 			
 		}
 	}
-    vPortFree(StatusArray);	//释放内存
+     vPortFree(StatusArray);	//释放内存
     while(1);
 }
 
