@@ -16,7 +16,57 @@ TaskHandle_t  StartTask_Handler;
 #define TASK1_TASK_PRIORITY 2  
 void task1_task( void * pvParameters );  
 TaskHandle_t Task1_Handler;  
- //列表
+
+
+int main(void)  
+{ 
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);//设置系统中断优先级分组4  	  	 
+	delay_init();	    				//延时函数初始化	      
+	uart_init(9600);					//初始化串口    
+	LED_INIT(0);		  					//初始化LED  
+	xTaskCreate( (TaskFunction_t) start_task,  
+			     (char *) "start_task",   
+			     (configSTACK_DEPTH_TYPE) START_STK_SIZE,   
+			     ( void *) NULL,   
+			     (UBaseType_t) START_TASK_PRIORITY,   
+			     (TaskHandle_t *) &StartTask_Handler );   
+    vTaskStartScheduler();          //开启任务调度  
+}   
+ void start_task ( void * pvParameters )   
+ { 	  
+    taskENTER_CRITICAL();            //进入临界区	 
+    //task 1 
+    xTaskCreate( (TaskFunction_t) task1_task , 
+				 (char *)  "task1_task", 
+				 (configSTACK_DEPTH_TYPE) TASK1_STK_SIZE , 
+				 (void *) NULL , 
+				 (UBaseType_t) TASK1_TASK_PRIORITY , 
+				 (TaskHandle_t*) &Task1_Handler ); 	 
+//	//list_task    
+//    xTaskCreate( (TaskFunction_t) list_task ,   
+//				 (char *)  "list_task",    
+//				 (configSTACK_DEPTH_TYPE) LIST_STK_SIZE ,    
+//				 (void *) NULL ,    
+//				 (UBaseType_t) LIST_TASK_PRIORITY ,    
+//				 (TaskHandle_t*) &List_Handler );    
+    vTaskDelete(StartTask_Handler );     
+    taskEXIT_CRITICAL();             //退出临界区	  			 
+ }   
+ void task1_task(void * pvParameters)  
+ {  
+	 while(1)  
+	 {  
+		LED0 = ~LED0;   
+        vTaskDelay(500);   		 
+	 }  
+ }  
+
+
+
+
+
+
+/**************************列表
 #define LIST_STK_SIZE 128  
 #define LIST_TASK_PRIORITY 3  
 void list_task( void * pvParameters );  
@@ -82,23 +132,21 @@ int main(void)
      ListItem3.xItemValue  = 50;
      
     //第二步：打印列表和其他列表项的地址
-	printf("/*******************列表和列表项地址*******************/\r\n");
-	printf("项目                              地址				    \r\n");
-	printf("TestList                          %#x					\r\n",(int)&TestList);
-	printf("TestList->pxIndex                 %#x					\r\n",(int)TestList.pxIndex);
-	printf("TestList->xListEnd                %#x					\r\n",(int)(&TestList.xListEnd));
-	printf("ListItem1                         %#x					\r\n",(int)&ListItem1);
-	printf("ListItem2                         %#x					\r\n",(int)&ListItem2);
-	printf("ListItem3                         %#x					\r\n",(int)&ListItem3);
-	printf("/************************结束**************************/\r\n");
-	printf("按下KEY_UP键继续!\r\n\r\n\r\n");
-	while(1);
-	 
- }
+//	printf("项目                              地址				    \r\n");
+//	printf("TestList                          %#x					\r\n",(int)&TestList);
+//	printf("TestList->pxIndex                 %#x					\r\n",(int)TestList.pxIndex);
+//	printf("TestList->xListEnd                %#x					\r\n",(int)(&TestList.xListEnd));
+//	printf("ListItem1                         %#x					\r\n",(int)&ListItem1);
+//	printf("ListItem2                         %#x					\r\n",(int)&ListItem2);
+//	printf("ListItem3                         %#x					\r\n",(int)&ListItem3);
+//	printf("按下KEY_UP键继续!\r\n\r\n\r\n");
+//	 
+// } 
+**************************/
+
  
  
- 
-/*****中断任务的屏蔽与解除
+/******************************中断任务的屏蔽与解除
 //中断任务 
 #define INT_STK_SIZE 128    
 #define INT_TASK_PRIORITY 2  
@@ -152,9 +200,9 @@ int main(void)
 	   vTaskDelay(1000);   
 	 }   
  }   
- */
+ *************************************/
  
- /***测试任务的挂起和恢复******** 
+ /**********************测试任务的挂起和恢复******** 
  //任务一
 #define TASK1_STK_SIZE 128  
 #define TASK1_TASK_PRIORITY 2  
@@ -232,4 +280,4 @@ TaskHandle_t Key_Handler;
 		}
 	 } 
  } 
-*******/
+*************************/
