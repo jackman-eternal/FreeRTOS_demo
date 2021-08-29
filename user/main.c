@@ -58,6 +58,7 @@ int main(void)
  }   
  void task1_task(void * pvParameters)  
  {  
+	 printf("task1 \r\n"); 
 	 while(1)  
 	 {  
       	GPIO_SetBits(GPIOC,GPIO_Pin_13 ); 
@@ -68,13 +69,14 @@ int main(void)
  }  
 void query_task(void * pvParameters)
 {
-	static uint32_t  num = 0;
 	uint32_t Total_time;
 	UBaseType_t ArraySize,x;
 	TaskStatus_t* StatusArray;
 //	  UBaseType_t  Priority;
 //    Priority = uxTaskPriorityGet(Query_Handler); //获取任务优先级
-	
+	printf("query \r\n"); 
+	while(1)
+	{
 	ArraySize = uxTaskGetNumberOfTasks(); //获取系统任务数量
 	StatusArray = pvPortMalloc(ArraySize*sizeof(TaskStatus_t));//为这个数组申请内存
 	if(StatusArray!=NULL)
@@ -82,20 +84,22 @@ void query_task(void * pvParameters)
 	     ArraySize = uxTaskGetSystemState((TaskStatus_t* )  StatusArray, 
 			                              (UBaseType_t   )   ArraySize, 
 									      (uint32_t*     )   &Total_time );
-		printf("TaskName\t\tPriority\t\tTaskNumber\t\t\r\n");
-		for(x=0;x<ArraySize;x++)
-		{
-			//通过串口打印出获取到的系统任务的有关信息，比如任务名称、
-			//任务优先级和任务编号。
-			printf("%s\t\t%d\t\t\t%d\t\t\t\r\n",				
-					StatusArray[x].pcTaskName,
-					(int)StatusArray[x].uxCurrentPriority,
-					(int)StatusArray[x].xTaskNumber);
-			
-		}
+		//printf("TaskName\t\tPriority\t\tTaskNumber\t\t\r\n");
+//		for(x=0;x<ArraySize;x++)
+//		{
+//			//通过串口打印出获取到的系统任务的有关信息，比如任务名称、
+//			//任务优先级和任务编号。
+//			printf("%s\t\t%d\t\t\t%d\t\t\t\r\n",				
+//					StatusArray[x].pcTaskName,
+//					(int)StatusArray[x].uxCurrentPriority,
+//					(int)StatusArray[x].xTaskNumber);
+//			
+//		}
+		
 	}
+	 vTaskDelay(1500); 
      vPortFree(StatusArray);	//释放内存
-    while(1);
+   }
 }
 
 
