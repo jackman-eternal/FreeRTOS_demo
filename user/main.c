@@ -60,10 +60,10 @@ int main(void)
  {  
 	 while(1)  
 	 {  
-//      PCout(13)=0;  
-//      vTaskDelay(1000); 		 
+        PCout(13)=0;  
+        vTaskDelay(1000); 		 
         PCout(13)=1;  
-        vTaskDelay(3000); 
+        vTaskDelay(1000); 
 	 }  
  }  
 void query_task(void * pvParameters)
@@ -71,32 +71,29 @@ void query_task(void * pvParameters)
 	uint32_t Total_time;
 	UBaseType_t ArraySize,x;
 	TaskStatus_t* StatusArray;
-//	  UBaseType_t  Priority;
-//    Priority = uxTaskPriorityGet(Query_Handler); //获取任务优先级
-	ArraySize = uxTaskGetNumberOfTasks(); //获取系统任务数量
-	StatusArray = pvPortMalloc(ArraySize*sizeof(TaskStatus_t));//为这个数组申请内存
+	ArraySize = uxTaskGetNumberOfTasks();         //获取系统任务数量
+	StatusArray = pvPortMalloc(ArraySize*sizeof(TaskStatus_t));//为这个数组申请内存,
+    //任务数*任务状态结构体的大小=任务状态结构体数组的大小,并返回申请是否成功
 	if(StatusArray!=NULL)
 	{
 	     ArraySize = uxTaskGetSystemState((TaskStatus_t* )  StatusArray, 
 			                              (UBaseType_t   )   ArraySize, 
 									      (uint32_t*     )   &Total_time );
-		//printf("TaskName\t\tPriority\t\tTaskNumber\t\t\r\n");
-//		for(x=0;x<ArraySize;x++)
-//		{
-//			//通过串口打印出获取到的系统任务的有关信息，比如任务名称、
-//			//任务优先级和任务编号。
-//			printf("%s\t\t%d\t\t\t%d\t\t\t\r\n",				
-//					StatusArray[x].pcTaskName,
-//					(int)StatusArray[x].uxCurrentPriority,
-//					(int)StatusArray[x].xTaskNumber);		
-//		}
-		
+		printf("TaskName\tTaskNumber\tCurrentPriority\tCurrentState\tRunTimeCounter\tStackHighWaterMark\r\n");
+		for(x=0;x<=sizeof(ArraySize);x++)
+		{
+			printf("%s\t\t%d\t\t%d\t\t%d\t\t%d\t\t%d\r\n",StatusArray[x].pcTaskName,
+									(int)StatusArray[x].xTaskNumber,
+									(int)StatusArray[x].uxCurrentPriority,
+									StatusArray[x].eCurrentState,
+									StatusArray[x].ulRunTimeCounter,
+									StatusArray[x].usStackHighWaterMark);																										        	
+	    }
 	}
      vPortFree(StatusArray);	//释放内存
    while(1)
    {
-	 PCout(13) = 0;
-     vTaskDelay(1500); 	   
+     vTaskDelay(10); 	   
    }
 }
 
@@ -104,7 +101,25 @@ void query_task(void * pvParameters)
 
 
 
-/**************************列表
+
+
+/*****************任务状态查询代码****************
+//printf("TaskName\t\tPriority\t\tTaskNumber\t\t\r\n");
+for(x=0;x<ArraySize;x++)
+{
+	//通过串口打印出获取到的系统任务的有关信息，比如任务名称、
+	//任务优先级和任务编号。
+	printf("%s\t\t%d\t\t\t%d\t\t\t\r\n",				
+			StatusArray[x].pcTaskName,
+			(int)StatusArray[x].uxCurrentPriority,
+			(int)StatusArray[x].xTaskNumber);		
+}
+
+UBaseType_t  Priority;
+Priority = uxTaskPriorityGet(Query_Handler); //获取任务优先级
+
+*********************************************/
+/******************************列表**********
 #define LIST_STK_SIZE 128  
 #define LIST_TASK_PRIORITY 3  
 void list_task( void * pvParameters );  
@@ -230,7 +245,7 @@ int main(void)
 	   vTaskDelay(1000);   
 	 }   
  }   
- *************************************/
+ **************************************************/
  
  /**********************测试任务的挂起和恢复******** 
  //任务一
@@ -310,4 +325,4 @@ TaskHandle_t Key_Handler;
 		}
 	 } 
  } 
-**********************************/
+**************************************/
