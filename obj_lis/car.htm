@@ -3,7 +3,7 @@
 <title>Static Call Graph - [..\obj_lis\car.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image ..\obj_lis\car.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Sun Aug 29 22:08:58 2021
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Mon Aug 30 10:41:57 2021
 <BR><P>
 <H3>Maximum Stack Usage =        312 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -323,12 +323,10 @@ Global Symbols
 
 <P><STRONG><a name="[49]"></a>GPIO_ResetBits</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f10x_gpio.o(i.GPIO_ResetBits))
 <BR><BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LED_INIT
-<LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task1_task
 </UL>
 
 <P><STRONG><a name="[4a]"></a>GPIO_SetBits</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f10x_gpio.o(i.GPIO_SetBits))
 <BR><BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LED_INIT
-<LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task1_task
 </UL>
 
 <P><STRONG><a name="[2]"></a>HardFault_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32f10x_it.o(i.HardFault_Handler))
@@ -342,9 +340,9 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = LED_INIT &rArr; GPIO_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[47]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB2PeriphClockCmd
-<LI><a href="#[48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
 <LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
+<LI><a href="#[48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -482,8 +480,6 @@ Global Symbols
 <LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vPortExitCritical
 <LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vPortEnterCritical
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pvPortMalloc
-<LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task1_task
-<LI><a href="#[3c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;query_task
 <LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTimerCreateTimerTask
 <LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xPortStartScheduler
 <LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskIncrementTick
@@ -571,7 +567,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvInitialiseNewTask
 </UL>
 
-<P><STRONG><a name="[3c]"></a>query_task</STRONG> (Thumb, 54 bytes, Stack size 8 bytes, main.o(i.query_task))
+<P><STRONG><a name="[3c]"></a>query_task</STRONG> (Thumb, 56 bytes, Stack size 8 bytes, main.o(i.query_task))
 <BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = query_task &rArr; uxTaskGetSystemState &rArr; prvListTasksWithinSingleList &rArr; vTaskGetInfo &rArr; xTaskResumeAll &rArr; xTaskIncrementTick &rArr; __2printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
@@ -579,7 +575,6 @@ Global Symbols
 <LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uxTaskGetSystemState
 <LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uxTaskGetNumberOfTasks
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pvPortMalloc
-<LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(i.start_task)
 </UL>
@@ -593,13 +588,10 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(i.main)
 </UL>
-<P><STRONG><a name="[3b]"></a>task1_task</STRONG> (Thumb, 46 bytes, Stack size 0 bytes, main.o(i.task1_task))
+<P><STRONG><a name="[3b]"></a>task1_task</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, main.o(i.task1_task))
 <BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = task1_task &rArr; vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick &rArr; __2printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
-<LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
-<LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
-<LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(i.start_task)
 </UL>

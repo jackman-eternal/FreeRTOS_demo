@@ -58,13 +58,12 @@ int main(void)
  }   
  void task1_task(void * pvParameters)  
  {  
-	 printf("task1 \r\n"); 
 	 while(1)  
 	 {  
-      	GPIO_SetBits(GPIOC,GPIO_Pin_13 ); 
-        vTaskDelay(2000); 		 
-        GPIO_ResetBits(GPIOC,GPIO_Pin_13); 
-        vTaskDelay(2000); 
+//      PCout(13)=0;  
+//      vTaskDelay(1000); 		 
+        PCout(13)=1;  
+        vTaskDelay(3000); 
 	 }  
  }  
 void query_task(void * pvParameters)
@@ -74,9 +73,6 @@ void query_task(void * pvParameters)
 	TaskStatus_t* StatusArray;
 //	  UBaseType_t  Priority;
 //    Priority = uxTaskPriorityGet(Query_Handler); //获取任务优先级
-	printf("query \r\n"); 
-	while(1)
-	{
 	ArraySize = uxTaskGetNumberOfTasks(); //获取系统任务数量
 	StatusArray = pvPortMalloc(ArraySize*sizeof(TaskStatus_t));//为这个数组申请内存
 	if(StatusArray!=NULL)
@@ -92,13 +88,15 @@ void query_task(void * pvParameters)
 //			printf("%s\t\t%d\t\t\t%d\t\t\t\r\n",				
 //					StatusArray[x].pcTaskName,
 //					(int)StatusArray[x].uxCurrentPriority,
-//					(int)StatusArray[x].xTaskNumber);
-//			
+//					(int)StatusArray[x].xTaskNumber);		
 //		}
 		
 	}
-	 vTaskDelay(1500); 
      vPortFree(StatusArray);	//释放内存
+   while(1)
+   {
+	 PCout(13) = 0;
+     vTaskDelay(1500); 	   
    }
 }
 
