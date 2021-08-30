@@ -297,8 +297,7 @@ delay_xms(10);						// 延时10ms 这个延时函数不会引起任务调度的
 注意上面的小细节   
 ### 关于时间片--任务调度 (对于FreeRTOS 允许同等任务优先级存在, 那么对于多个同等优先级的任务运行,FreeRTOS 的机制就是对于同等优先级任务来说, 每个任务允许运行一个时间片.这个任务消耗完一个时间片,那么CPU的使用权,将会移交给同等优先级下的另一个任务.使用,如此反复, 直到次优先级完全对CPU使用权进行释放.概念: 时间片是由 configTICK_RATE_HZ 这个宏定义决定的. 在平常设置为1000 表示 时间片的长度为1/1000 S 相当于1ms.)[https://blog.csdn.net/longjingcha110/article/details/86509489]
 遇到的问题，在测试查询系统任务时，低优先级的任务一直没有执行,原因高优先级使用while(1),导致低优先级的任务不运行
-### 注意动态内存申请，调用函数 pvPortMalloc() 和 vPortFree()，调用格式参考函数定义
-
+### 注意动态内存申请，调用函数 pvPortMalloc() 和 vPortFree()，调用格式参考函数定义                 eg:      定义 TaskStatus_t* StatusArray;                                               StatusArray = pvPortMalloc(ArraySize*sizeof(TaskStatus_t));//为这个数组申请内存                 if(StatusArray!=NULL){}//判断内存是否申请成功                                                  释放内存     vPortFree(StatusArray); [https://blog.csdn.net/Hxj_CSDN/article/details/86816688?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522163030473816780255275485%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=163030473816780255275485&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v29_ecpm-1-86816688.first_rank_v2_pc_rank_v29&utm_term=FreeRTOS+pvportmall&spm=1018.2226.3001.4187]学习FreeRTOS的总结博客
 
 
 
