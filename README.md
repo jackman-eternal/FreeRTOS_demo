@@ -185,11 +185,11 @@ int main(void)
 		}   
 	 }   
  }        
-####  以下代码是基于上面的代码进一步修改   (测试从中断服务函数中恢复任务,PA2 控制 led1  PA8 控制 le0 PA3控制任务一的挂起和恢复和任务二的挂起，PA4的中断服务函数中实现任务二的恢复)
+###  以下代码是基于上面的代码进一步修改   (测试从中断服务函数中恢复任务,PA2 控制 led1  PA8 控制 le0 PA3控制任务一的挂起和恢复和任务二的挂起，PA4的中断服务函数中实现任务二的恢复)
 注意： 
 注意事项(避免程序卡死)！！！ 
 中断函数中不可以使用vTaskDelay()！  
-##### 所以FreeRTOS的API函数只有带FromISR后缀的才能在中断函数中使用，而**vTaskDelay()**好像也没有FromISR版本，所以就不能使用！推而广之，其它不带FromISR后缀的API函数也不能在中断函数中使用！  
+### 所以FreeRTOS的API函数只有带FromISR后缀的才能在中断函数中使用，而**vTaskDelay()**好像也没有FromISR版本，所以就不能使用！推而广之，其它不带FromISR后缀的API函数也不能在中断函数中使用！  
 中断函数中必须使用带FromISR后缀的API函数！   
 这一条和上一条其实是一个意思，实验中在中断函数中对信号量进行释放，使用的是xTaskResumeFromISR()函数，如果改成vTaskResume()，实测发现程序同样会卡死在这里。   
 加入以下代码  ：
@@ -228,10 +228,10 @@ void EXTI_PA4_init(void)  //PA4 触发中断实现任务的恢复
 	 }   
 	 EXTI_ClearITPendingBit(EXTI_Line4);   
  }   
- ###### 如果在中断函数中使用了FreeRTOS的API函数，当然前提也是使用带FromISR后缀的，中断的优先级不能高于宏定义configMAX_SYSCALL_INTERRUPT_PRIORITY，这个宏定义在FreeRTOSConfig.h中：即中断优先级设置范围为5~15(0xf)。当然，如果中断函数中没有使用FreeRTOS的API，那么中断的优先级就不受限制。
+ ### 如果在中断函数中使用了FreeRTOS的API函数，当然前提也是使用带FromISR后缀的，中断的优先级不能高于宏定义configMAX_SYSCALL_INTERRUPT_PRIORITY，这个宏定义在FreeRTOSConfig.h中：即中断优先级设置范围为5~15(0xf)。当然，如果中断函数中没有使用FreeRTOS的API，那么中断的优先级就不受限制。
  [https://blog.csdn.net/hqy450665101/article/details/113283748?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522163006782716780269811042%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=163006782716780269811042&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v29_ecpm-1-113283748.first_rank_v2_pc_rank_v29&utm_term=freeRTOS%E5%9C%A8%E4%B8%AD%E6%96%AD%E5%87%BD%E6%95%B0%E6%81%A2%E5%A4%8D%E4%BB%BB%E5%8A%A1&spm=1018.2226.3001.4187]  
  FreeRTOS关于任务调度的函数  
- ######　以下代码是测试freertos的中断的屏蔽实验（主要实现的功能，利用定时器2，3更新中断，并且在中断服务函数中打印相关提示，由于TIM2的中断优先级是4，故无法屏蔽，而TIM3的中断优先级为5，可以屏蔽）代码如下：
+ ###　以下代码是测试freertos的中断的屏蔽实验（主要实现的功能，利用定时器2，3更新中断，并且在中断服务函数中打印相关提示，由于TIM2的中断优先级是4，故无法屏蔽，而TIM3的中断优先级为5，可以屏蔽）代码如下：
  主函数中代码：  
 //开始任务   
 #define START_STK_SIZE 128     
@@ -289,15 +289,15 @@ int main(void)
 	   vTaskDelay(1000); //任务应用函数可用，在中断服务函数不可用未带ISR后缀的FreeRTOS的API函数      
 	 }       
  }       
-###### 对中断屏蔽实验的重要补充，由于解除中断只需要调用函数（vPortSetBASEPRI( 0 )），而其他的FreeRTOS的函数也可能会调用此函数，因此，285行的延时函数不用freeRTOS自带的延时函数，这里补充下，如果使用则屏蔽中断后马上解除，看不到效果。
+### 对中断屏蔽实验的重要补充，由于解除中断只需要调用函数（vPortSetBASEPRI( 0 )），而其他的FreeRTOS的函数也可能会调用此函数，因此，285行的延时函数不用freeRTOS自带的延时函数，这里补充下，如果使用则屏蔽中断后马上解除，看不到效果。
 UBaseType_t  Priority;   
 Priority = uxTaskPriorityGet(Query_Handler);   
 调用此函数可查询优先级 
 delay_xms(10);						// 延时10ms 这个延时函数不会引起任务调度的    
 注意上面的小细节   
-###### 关于时间片--任务调度 (对于FreeRTOS 允许同等任务优先级存在, 那么对于多个同等优先级的任务运行,FreeRTOS 的机制就是对于同等优先级任务来说, 每个任务允许运行一个时间片.这个任务消耗完一个时间片,那么CPU的使用权,将会移交给同等优先级下的另一个任务.使用,如此反复, 直到次优先级完全对CPU使用权进行释放.概念: 时间片是由 configTICK_RATE_HZ 这个宏定义决定的. 在平常设置为1000 表示 时间片的长度为1/1000 S 相当于1ms.)[https://blog.csdn.net/longjingcha110/article/details/86509489]
+### 关于时间片--任务调度 (对于FreeRTOS 允许同等任务优先级存在, 那么对于多个同等优先级的任务运行,FreeRTOS 的机制就是对于同等优先级任务来说, 每个任务允许运行一个时间片.这个任务消耗完一个时间片,那么CPU的使用权,将会移交给同等优先级下的另一个任务.使用,如此反复, 直到次优先级完全对CPU使用权进行释放.概念: 时间片是由 configTICK_RATE_HZ 这个宏定义决定的. 在平常设置为1000 表示 时间片的长度为1/1000 S 相当于1ms.)[https://blog.csdn.net/longjingcha110/article/details/86509489]
 遇到的问题，在测试查询系统任务时，低优先级的任务一直没有执行,原因高优先级使用while(1),导致低优先级的任务不运行
-###### 注意动态内存申请，调用函数 pvPortMalloc() 和 vPortFree()，调用格式参考函数定义
+### 注意动态内存申请，调用函数 pvPortMalloc() 和 vPortFree()，调用格式参考函数定义
 
 
 
