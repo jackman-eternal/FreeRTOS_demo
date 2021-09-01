@@ -31,7 +31,7 @@ int main(void)
 	xTaskCreate( (TaskFunction_t) start_task,       //任务函数指针
 			     (char *) "start_task",             //任务函数名
 			     (configSTACK_DEPTH_TYPE) START_STK_SIZE,   //任务堆栈大小
-			     ( void *) NULL,   
+			     ( void *) NULL,                            //传递给任务函数的参数
 			     (UBaseType_t) START_TASK_PRIORITY,         //任务优先级
 			     (TaskHandle_t *) &StartTask_Handler );     //任务句柄
     vTaskStartScheduler();          //开启任务调度  
