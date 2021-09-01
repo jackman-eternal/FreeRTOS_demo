@@ -28,12 +28,12 @@ int main(void)
 	delay_init();	    				            //延时函数初始化	      
 	uart_init(9600);				            	//初始化串口    
 	LED_INIT(0);		  				        	//初始化LED  
-	xTaskCreate( (TaskFunction_t) start_task,  
-			     (char *) "start_task",   
-			     (configSTACK_DEPTH_TYPE) START_STK_SIZE,   
+	xTaskCreate( (TaskFunction_t) start_task,       //任务函数指针
+			     (char *) "start_task",             //任务函数名
+			     (configSTACK_DEPTH_TYPE) START_STK_SIZE,   //任务堆栈大小
 			     ( void *) NULL,   
-			     (UBaseType_t) START_TASK_PRIORITY,   
-			     (TaskHandle_t *) &StartTask_Handler );   
+			     (UBaseType_t) START_TASK_PRIORITY,         //任务优先级
+			     (TaskHandle_t *) &StartTask_Handler );     //任务句柄
     vTaskStartScheduler();          //开启任务调度  
 }   
  void start_task ( void * pvParameters )   
